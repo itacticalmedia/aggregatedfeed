@@ -19,12 +19,12 @@ resources.view[] =
 resources.db.adapter = "mysqli"
 resources.db.params.host = "localhost"
 resources.db.params.username = "root"
-resources.db.params.password = "Sou@201114"
+resources.db.params.password = "XXXXXX"
 resources.db.params.dbname = "aggregatedfeed"
 resources.db.params.charset = "utf8"
 
-baseHttp = "http://localhost/OMID/gitProject/COM-itacticalmedia/aggregatedfeed/public"
-basePath = "/var/www/OMID/gitProject/COM-itacticalmedia/aggregatedfeed/public/"
+baseHttp = "http://aggregatedfeed.com/"
+basePath = "/var/www/aggregatedfeed/public/"
 storeName = "Aggregated Feed";
 
 ;DEFAULT EMAILS
