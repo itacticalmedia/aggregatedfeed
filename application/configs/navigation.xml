@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<sitenav>
+    <admin>
+           
+        <resourceGroup>
+            <label><![CDATA[Access Group]]></label>
+            <id><![CDATA[accessGroup]]></id>
+            <uri><![CDATA[#]]></uri>
+            <pages>
+                <resourceGroups>
+                    <label><![CDATA[Access Group List]]></label>
+                    <id><![CDATA[resourceGroups]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <pages>
+                        <edit>
+                            <label><![CDATA[Access Group Edit]]></label>
+                            <id><![CDATA[resourcegroupedit]]></id>
+                            <uri><![CDATA[]]></uri>
+                            <module>admin</module>
+                            <controller>acl</controller>
+                            <action>resourcegroupedit</action>
+                            <resource>admin.acl</resource>
+                            <privilege>resourcegroupedit</privilege>                                           
+                        </edit> 
+                    </pages>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>resourcegroup</action>
+                    <resource>admin.acl</resource>
+                    <privilege>resourcegroup</privilege>  
+                </resourceGroups>
+                <addResourceGroups>
+                    <label><![CDATA[Add Access Group]]></label>
+                    <id><![CDATA[addResourceGroups]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>resourcegroupadd</action>
+                    <resource>admin.acl</resource>
+                    <privilege>resourcegroupadd</privilege>
+                </addResourceGroups>
+            </pages>
+        </resourceGroup>
+        <role>
+            <label><![CDATA[Role]]></label>
+            <id><![CDATA[role]]></id>
+            <uri><![CDATA[#]]></uri>
+            <pages>
+                <roles>
+                    <label><![CDATA[Role List]]></label>
+                    <id><![CDATA[roles]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <pages>
+                        <edit>
+                            <label><![CDATA[Role Edit]]></label>
+                            <id><![CDATA[roleedit]]></id>
+                            <uri><![CDATA[]]></uri>
+                            <module>admin</module>
+                            <controller>acl</controller>
+                            <action>roleedit</action>
+                            <resource>admin.acl</resource>
+                            <privilege>roleedit</privilege>                                           
+                        </edit> 
+                    </pages>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>role</action>
+                    <resource>admin.acl</resource>
+                    <privilege>role</privilege>
+                </roles>
+                <addRoles>
+                    <label><![CDATA[New Role]]></label>
+                    <id><![CDATA[addRoles]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>roleadd</action>
+                    <resource>admin.acl</resource>
+                    <privilege>roleadd</privilege>
+                </addRoles>
+            </pages>
+        </role>
+        <user>
+            <label><![CDATA[User]]></label>
+            <id><![CDATA[user]]></id>
+            <uri><![CDATA[#]]></uri>            
+            <pages>
+                <users>
+                    <label><![CDATA[User List]]></label>
+                    <id><![CDATA[users]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <pages>
+                        <edit>
+                            <label><![CDATA[User Edit]]></label>
+                            <id><![CDATA[useredit]]></id>
+                            <uri><![CDATA[]]></uri>
+                            <module>admin</module>
+                            <controller>acl</controller>
+                            <action>useredit</action>
+                            <resource>admin.acl</resource>
+                            <privilege>useredit</privilege>                                           
+                        </edit> 
+                    </pages>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>user</action>
+                    <resource>admin.acl</resource>
+                    <privilege>user</privilege>
+                </users>
+                <addUsers>
+                    <label><![CDATA[Add User]]></label>
+                    <id><![CDATA[addUsers]]></id>
+                    <uri><![CDATA[]]></uri>
+                    <module>admin</module>
+                    <controller>acl</controller>
+                    <action>useradd</action>
+                    <resource>admin.acl</resource>
+                    <privilege>useradd</privilege>
+                </addUsers>
+            </pages>
+        </user>
+    </admin>
+</sitenav>

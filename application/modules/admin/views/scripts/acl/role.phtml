@@ -1,0 +1,87 @@
+
+<div class="outerrel add-background">
+    <div class="wrapper container_16">
+
+        <div class="add-container grid_16">
+            <table width="100%" border="0">
+                <?php
+                if (isset($this->errors) && count($this->errors) > 0)
+                {
+                    ?>
+                    <tr>
+                        <td class="success" align="center">
+
+                            <?
+                            foreach ($this->errors as $error)
+                            {
+                                echo $error . "<br>";
+                            }
+                            ?>
+                        </td>
+                    </tr>
+
+                    <?php
+                }
+                ?> 
+            </table>
+            <div class="add-holder">
+                <span class="add-new">
+                    <input class='btnAdd' style='margin-left:10px'  value="" name="" type="button" onclick="javascript:document.location.href = '<?= BASE_URL_DASHBOARD . "admin/roleadd" ?>'" />
+                </span>
+
+                <div class="clear"></div>
+
+                <table class="main-grid" id="data_grid" width="100%" border="1">
+                    <tr class="titles" >
+                        <td class="no-right-border" width="20%">Role Name</td>
+                        <td width="40%">Resource Group</td>       
+                        <td width="20%">Modified Date/Time</td>       
+                        <td width="10%">Status</td>
+                        <td width="20%">Action</td>
+                    </tr>
+                    <?php
+                    $i = 0;
+                    if ($this->roles)
+                    {
+                        $rowclass = '';
+                        foreach ($this->roles as $role)
+                        {
+
+                            $rowclass = ($rowclass == '') ? 'lightblue' : '';
+                            $resourcesGrp = $role->getResourceGroups();
+                            $resName = "";
+                            if ($resourcesGrp)
+                            {
+                                foreach ($resourcesGrp as $resourceGrp)
+                                {
+                                    $resName .= $resourceGrp->getName() . "<br>";
+                                }
+                            }
+                            ?>
+                            <tr class="<?php echo $rowclass; ?>">
+                                <td ><?php echo $role->getName() ?></td>
+                                <td ><?php echo $resName ?></td>
+                                <td><?php echo $role->getModified() ?></td> 
+                                <td ><?php echo $role->getStatus() ?></td>
+                                <td >
+        <?php if ($role->getId() != 2)
+        { ?>
+                                        <a href="<?= BASE_URL_DASHBOARD; ?>admin/roleedit/id/<?php echo $role->getId() ?>">Edit</a> / 
+                                        <a href="javascript:void(0)" onclick="deleteRole('<?= BASE_URL_DASHBOARD; ?>admin/roledelete/id/<?php echo $role->getId() ?>')">Delete</a>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                        }
+                    }
+                    ?>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+    </div>
+</div>

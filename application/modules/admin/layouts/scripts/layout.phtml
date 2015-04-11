@@ -1,0 +1,49 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <?php echo $this->headMeta() ?>
+        <?php echo $this->headTitle() ?>
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/site.css" />  
+            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/jquery/jquery-ui.css" />
+            
+            <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery/jquery-2.1.1.js" ></script>      
+            <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/site.js" ></script>
+            <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/admin.js" ></script>    
+    </head> 
+    <body>
+
+      
+       
+        <!-- Header -->
+        <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+           HEADER -- Aggregated Feed
+        </div>
+        <!-- /Header --> 
+        
+        
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-mm-1 custom-menu navbar-collapse collapse">
+                    <!-- Menu -->                   
+                    <?php
+                        $partial = array('menu.phtml', 'default');
+                        $this->navigation()->menu()->setPartial($partial);
+                        echo $this->navigation()->menu()->render();
+                    ?>
+                </div>
+                
+                <div class="col-sm-10 col-xs-12">
+                    <div class="row">
+                        <br>
+                        <?php echo $this->layout()->content ?>
+                    </div>
+                </div>    
+            </div>  
+        </div>
+       
+     
+    </body>
+</html>

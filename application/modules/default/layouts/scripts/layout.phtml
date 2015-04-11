@@ -1,0 +1,27 @@
+<?php echo $this->doctype() ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <?php echo $this->headMeta() ?>
+    <?php echo $this->headTitle() ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/jquery/jquery-ui.css" />  
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery/jquery-2.1.1.js" ></script>
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery/jquery-ui.js" ></script>
+</head> 
+<body>
+
+    <div> DEFAULT HEADER </div><hr>
+
+    <br>
+
+
+
+    <div> <?php echo $this->layout()->content ?> </div>
+
+
+
+    <hr><div> FOOTER </div>
+
+
+</body>
+</html>
