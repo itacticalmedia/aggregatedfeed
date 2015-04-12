@@ -12,6 +12,7 @@ resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
 resources.frontController.moduleDirectory = APPLICATION_PATH "/modules"
 resources.frontController.params.displayExceptions = 0
 resources.layout.pluginClass = "Plugin_ModuleLayout"
+resources.frontController.plugins.acl = "Plugin_Acl"
 
 resources.modules[] = 
 resources.view[] =

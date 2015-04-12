@@ -27,7 +27,7 @@ function _customJsDialog(msgText, titleText, type, callBack)
     {
         titleText = "Aggregated Feed";
     }
-    /*var dlg = $("#dialog-custom-confirm").dialog({
+    var dlg = $("#dialog-custom-confirm").dialog({
         create: function (event, ui) {
             //$(".ui-dialog-titlebar").hide();
         },
@@ -71,14 +71,14 @@ function _customJsDialog(msgText, titleText, type, callBack)
 
         ]);
 
-    }*/
-    if (type == 0)
+    }
+    /*if (type == 0)
     {
         sitePopup.alert(msgText,callBack,titleText);
     }else if (type == 1)
     {
         sitePopup.confirm(msgText,callBack);
-    }
+    }*/
     
 
 

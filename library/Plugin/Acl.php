@@ -25,8 +25,7 @@ class Plugin_Acl extends Zend_Controller_Plugin_Abstract
         $controller = $request->getControllerName();
         $action = $request->getActionName();
         
-
-        if (in_array($module, $this->implementedModules) && $controller != 'auth' && $controller != 'error')
+        if (in_array($module, $this->implementedModules) && $controller != 'login' && $controller != 'error')
         {
        
             $aclResource = new Application_Model_Resource();
@@ -73,7 +72,6 @@ class Plugin_Acl extends Zend_Controller_Plugin_Abstract
 
                 // add the role
                 $acl->addRole(new Zend_Acl_Role($role));
-
 
                 if ($roleObj->getId() == self::ADMIN_ROLEID)
                 {

@@ -83,7 +83,7 @@ class Application_Model_UserMapper extends Application_Model_MapperBase
 
     }
     
-    public function getEmployeeById($id)
+    public function getUserById($id)
     {
         $table = $this->getDbTable();
         $row = $table->fetchRow(

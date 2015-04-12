@@ -103,14 +103,14 @@ class Admin_AclController extends Plugin_Inject
                     }
                     
                     $Succmsg[] = "Role \"$rname\" has been saved successfully.";
-                    $this->_helper->flashMessenger->addMessage($Succmsg);
+                    $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
                     $this->gotoPage('role', 'acl');
                 }
                 if (count($msg) > 0)
                 {
-                    $this->_helper->flashMessenger->addMessage($msg);
+                    $this->_helper->flashMessenger->addMessage(array("error"=>$msg));
                 }
-                $this->gotoPage('role', 'acl');
+                $this->gotoPage('roleadd', 'acl');
             }
         }
     }
@@ -165,7 +165,7 @@ class Admin_AclController extends Plugin_Inject
             $r->delete();
 
             $Succmsg[] = "Role \"$rname\" delete successfully.";
-            $this->_helper->flashMessenger->addMessage($Succmsg);
+            $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
             $this->gotoPage('role', 'acl');
         } 
         else
@@ -270,13 +270,13 @@ class Admin_AclController extends Plugin_Inject
                     }
                     
                     $Succmsg[] = "Resource Group \"$rname\" has been saved successfully.";
-                    $this->_helper->flashMessenger->addMessage($Succmsg);
+                    $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
                     $this->gotoPage('resourcegroup', 'acl');
                 }
                 
                 if (count($msg) > 0)
                 {
-                    $this->_helper->flashMessenger->addMessage($msg);
+                    $this->_helper->flashMessenger->addMessage(array("error"=>$msg));
                 }
                 
                 $this->gotoPage('resourcegroupadd', 'acl');
@@ -337,7 +337,7 @@ class Admin_AclController extends Plugin_Inject
             $r->delete();
 
             $Succmsg[] = "Resource Group \"$rname\" delete successfully.";
-            $this->_helper->flashMessenger->addMessage($Succmsg);
+            $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
             $this->gotoPage('resourcegroup', 'acl');
         } else
         {
@@ -345,7 +345,7 @@ class Admin_AclController extends Plugin_Inject
         }
     }
     
-     /************* EMPLOYEE ADD/EDIT ******************/
+     /************* user ADD/EDIT ******************/
     public function userAction()
     {
         if ($this->_helper->flashMessenger->hasMessages())
@@ -409,6 +409,10 @@ class Admin_AclController extends Plugin_Inject
                 {
                     $msg[] = "Please enter Password.";
                 }
+                if ($roleId == "" || $roleId == 0)
+                {
+                    $msg[] = "Please select role.";
+                }
                 
                 if (count($msg) == 0)
                 {
@@ -432,12 +436,12 @@ class Admin_AclController extends Plugin_Inject
                     $r->save();
                    
                     $Succmsg[] = "User \"$fname $lname\" has been saved successfully.";
-                    $this->_helper->flashMessenger->addMessage($Succmsg);
+                    $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
                     $this->gotoPage('user', 'acl');
                 }
                 if (count($msg) > 0)
                 {
-                    $this->_helper->flashMessenger->addMessage($msg);
+                    $this->_helper->flashMessenger->addMessage(array("error"=>$msg));
                 }
                 $this->gotoPage('user', 'acl');
             }
@@ -485,7 +489,7 @@ class Admin_AclController extends Plugin_Inject
             $e->delete();
 
             $Succmsg[] = "User \"$rname\" delete successfully.";
-            $this->_helper->flashMessenger->addMessage($Succmsg);
+            $this->_helper->flashMessenger->addMessage(array("success"=>$Succmsg));
            
             $this->gotoPage('user', 'acl');
         } else

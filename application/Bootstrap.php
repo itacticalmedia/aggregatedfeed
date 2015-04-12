@@ -55,4 +55,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
     }
     
+    protected function _initNavigation()
+    {
+        $navEnabledModules = array('admin');
+ 
+        if(in_array($this->moduleName, $navEnabledModules))
+        { 
+            $this->bootstrap('view');
+            $view = $this->getResource('view');
+            $config = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'admin');
+            $nav = new Zend_Navigation($config);
+            $regNav = $view->navigation($nav);
+
+            Zend_Registry::set('regNav', $regNav);
+        }
+        
+    }
+    
 }

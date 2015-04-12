@@ -54,5 +54,9 @@ class ErrorController extends Plugin_Inject
     }
 
 
+    public function accessdeniedAction()
+    {
+     
+    }
 }
 

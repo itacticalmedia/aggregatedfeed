@@ -59,9 +59,11 @@ CREATE TABLE `Resources` (
   `modified` datetime NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `Resources` */
+
+insert  into `Resources`(`id`,`module`,`controller`,`action`,`name`,`routeName`,`modified`,`created`) values (1,'admin','index','index',NULL,NULL,'2015-04-12 17:05:22','2015-04-12 17:05:22'),(2,'admin','acl','resourcegroup',NULL,NULL,'2015-04-12 17:05:51','2015-04-12 17:05:51'),(3,'admin','acl','resourcegroupadd',NULL,NULL,'2015-04-12 17:05:54','2015-04-12 17:05:54'),(4,'admin','acl','role',NULL,NULL,'2015-04-12 17:05:58','2015-04-12 17:05:58'),(5,'admin','acl','roleadd',NULL,NULL,'2015-04-12 17:06:00','2015-04-12 17:06:00'),(6,'admin','acl','user',NULL,NULL,'2015-04-12 17:06:01','2015-04-12 17:06:01'),(7,'admin','acl','useradd',NULL,NULL,'2015-04-12 17:06:02','2015-04-12 17:06:02');
 
 /*Table structure for table `RoleResGroup` */
 
@@ -78,21 +80,6 @@ CREATE TABLE `RoleResGroup` (
 
 /*Data for the table `RoleResGroup` */
 
-/*Table structure for table `RoleResources` */
-
-DROP TABLE IF EXISTS `RoleResources`;
-
-CREATE TABLE `RoleResources` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roleId` int(11) NOT NULL,
-  `resGroupId` int(11) NOT NULL,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `RoleResources` */
-
 /*Table structure for table `Roles` */
 
 DROP TABLE IF EXISTS `Roles`;
@@ -105,9 +92,11 @@ CREATE TABLE `Roles` (
   `created` datetime NOT NULL,
   `status` enum('A','I','D') DEFAULT 'A',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `Roles` */
+
+insert  into `Roles`(`id`,`name`,`default`,`modified`,`created`,`status`) values (2,'Admin',1,'2015-04-12 17:05:09','0000-00-00 00:00:00','A');
 
 /*Table structure for table `users` */
 
@@ -123,11 +112,11 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`firstName`,`lastName`,`email`,`password`,`roleID`,`created`,`modified`) values (5,'Admin','Admin','admin@admin.com','96e79218965eb72c92a549dd5a330112',2,'2013-07-16 00:03:07','2014-11-27 00:08:20');
+insert  into `users`(`id`,`firstName`,`lastName`,`email`,`password`,`roleID`,`created`,`modified`) values (1,'Admin','Admin','admin@admin.com','96e79218965eb72c92a549dd5a330112',2,'0000-00-00 00:00:00',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

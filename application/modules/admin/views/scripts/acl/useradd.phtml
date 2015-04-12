@@ -1,34 +1,11 @@
 
 <div class="outerrel add-background">
     <div class="wrapper container_16">
-
+        <?php echo $this->message();?>
         <div class="add-container grid_16">
             <div class="profile signerarea-update-profile">
 
-
-                <table width="100%" border="0">
-                    <?php
-                    if (isset($this->errors) && count($this->errors) > 0)
-                    {
-                        ?>
-                        <tr>
-                            <td colspan="3" class="error">
-
-                                <?php
-                                foreach ($this->errors as $error)
-                                {
-                                    echo $error . "<br>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-
-                        <?php
-                    }
-                    ?> 
-                </table>
-
-                <form enctype="multipart/form-data" method="post" action="<?= BASE_URL_DASHBOARD; ?>admin/employeesave" name="empSave" onsubmit="return validEmployeeSave(this)">
+                <form enctype="multipart/form-data" method="post" action="<?php echo  BASE_URL_ADMIN; ?>/acl/usersave" name="empSave" onsubmit="return validUserSave(this)">
                     <input type="hidden" name="id" value="<?php echo $this->id ?>">
 
                     <table width="100%" border="0" id="">
@@ -123,14 +100,14 @@
                                         <td>
                                             <div align="right">
                                           
-                                            <input class="cancel-b" name="cancel" type="button" value="" onclick="javascript:document.location.href='<?= BASE_URL_DASHBOARD."admin/employee"?>'" />
+                                            <input class="cancel-b" name="cancel" type="button" value="Cancel" onclick="javascript:document.location.href='<?php echo  BASE_URL_ADMIN."/acl/user"?>'" />
                                             </div>
                                             </td>
                                         <td colspan="2">&nbsp;</td>
                                         
                                         <td>
                                             <div align="left">
-                                                <input class="btn-Save" name="submit" type="submit" value=" " />
+                                                <input class="btn-Save" name="submit" type="submit" value="Save" />
                                             </div>
                                         </td>
                                     </tr>

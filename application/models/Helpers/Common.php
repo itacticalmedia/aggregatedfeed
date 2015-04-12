@@ -582,4 +582,9 @@ class Application_Model_Helpers_Common
         return $status;
     }
     
+    public static function uppercaseFirst($str)
+    {
+        return ucfirst($str);
+    }
+    
 }
