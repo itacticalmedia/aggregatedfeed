@@ -118,6 +118,34 @@ CREATE TABLE `users` (
 
 insert  into `users`(`id`,`firstName`,`lastName`,`email`,`password`,`roleID`,`created`,`modified`) values (1,'Admin','Admin','admin@admin.com','96e79218965eb72c92a549dd5a330112',2,'0000-00-00 00:00:00',NULL);
 
+
+CREATE TABLE `feed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `feedName` varchar(255) DEFAULT NULL,
+  `feedUrl` varchar(500) DEFAULT NULL,
+  `itemTag` varchar(255) DEFAULT NULL,
+  `feedPriority` int(11) DEFAULT NULL,
+  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` int(11) NOT NULL,
+  `modifiedDate` datetime DEFAULT NULL,
+  `modifieddBy` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `feedData` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `feedId` int(11) NOT NULL,
+  `data` text,
+  `publishDate` datetime DEFAULT NULL,
+  `originalPosition` int(11) DEFAULT NULL,
+  `newPosition` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
