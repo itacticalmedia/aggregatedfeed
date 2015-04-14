@@ -1,5 +1,74 @@
-<div class="col-sm-12">
-    <div class="panel-body">
-       WelCome to Master Admin
+<style>
+    table.sorting-table {cursor: move;}
+    table tr.sorting-row td {background-color: #8b8;}
+    table td.sorter {background-color: #f80; width: 10px; cursor: move;}
+    table tr.nodrag td.sorter {cursor: default; background-color: #ddd;}
+    .sort-handler {float: right; background-color: #f80; width: 14px; height: 14px; margin: 2px 0 0 6px; cursor: move;}
+</style>
+<?php echo $this->message(); ?>
+
+<div class="row page-title">
+    <div class="col-md-12">
+        <button class="btn btn-lg btn-primary pull-right" onclick="javascript:document.location.href = '<?php echo BASE_URL_ADMIN . "/index/feedadd" ?>'">Add Feed</button>
+        <h1 class="pull-left">Dashboard</h1>
+
+    </div><!-- /.col-md-8 -->
+
+    <div class="clearfix"></div>
+</div><!-- / page title -->
+
+<div class="col-lg-12">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="tab-sort-feed">
+            <thead>
+                <tr>
+                    <th>Feed Name</th>
+                    <th>Feed Url.</th>
+                    <th>Modify Date</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <?php
+                    if ($this->feeds)
+                    {
+                        $rowclass = '';
+                        foreach ($this->feeds as $feed)
+                        {
+                            ?>
+                            <tr>
+                                <td class=""><?php echo $feed->getFeedName() ?></td>
+                                <td><?php echo $feed->getFeedUrl() ?></td>
+                                <td><?php echo $feed->getModifiedOn() ?></td> 
+                                <td class=""><?php echo $feed->getFeedPriority() ?></td>
+                                <td class="action">
+                                    <a href="<?php echo BASE_URL_ADMIN; ?>/index/feededit/id/<?php echo $feed->getId() ?>">
+                                        <i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" onclick="deleteFeed('<?php echo BASE_URL_ADMIN; ?>/index/feeddelete/id/<?php echo $feed->getId() ?>')">
+                                        <i class="fa fa-close"></i></a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+
+                    
+                    
+               
+
+            </tbody>
+        </table>
     </div>
 </div>
+
+<script>
+    
+    $("#tab-sort-feed").rowSorter({
+		onDrop: function(tbody, row, index, oldIndex) {
+			alert((oldIndex + 1) + ". row moved to " + (index + 1));
+		}
+	});
+    
+</script>

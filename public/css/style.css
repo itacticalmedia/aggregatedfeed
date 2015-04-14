@@ -1,0 +1,45 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700);
+
+*{ font-family: 'Roboto Slab', serif;}
+body.loginPage{ background-color:#231f20;}
+
+.clearfix{ clear:both; float:none;}
+.login-box{ padding:60px; margin:0px auto; float:none;}
+.login-box input{ height:60px !important; font-size:18px !important;} 
+.logo {display: block; margin: 0 auto 10px; text-align: center;}
+.logo h2{ font-size:30px; color:#fff; margin:30px;}
+.logo{margin: 0 auto 10px; display: block; text-align:center;}
+.login-box .form-group { margin-bottom:0px;}
+.login-box .form-group.email{ border-bottom:1px solid #ccc;} 
+.login-box input{ color:#1c1c1c; font-weight:300; border:0px; box-shadow:none;}
+.login-box input:focus{ box-shadow:none;}
+.login-box .login{ line-height:45px; background-color:#009bd5;}
+.login-box .email input{ border-radius:4px 4px 0px 0px;}
+.login-box .input-group-addon{ background-color:#fff; border:0px;  border-radius:0px 0px 0px 4px; font-size:24px;}
+.login-box .email .input-group-addon {border-radius:4px 0px 0px 0px !important;}
+.login-box .password .input-group-addon { padding:0px 14px 0px 18px !important;}
+.login-box .password input{ border-radius:0px 0px 4px 4px; }
+
+
+.navbar{ background-color:#231f20; border:0px; min-height:110px;}
+.navbar .welcome{ float:left; color:#ff; font-size:24px; font-weight:300;}
+.navbar-header{ margin-left:20px;}
+.navbar-brand{ float:left;}
+#page-wrapper { width: 100%;  padding: 5px 15px; margin-top:122px;}
+.page-title{ border-bottom:1px solid #ccc; margin-bottom:40px;}
+.page-title  h1{ font-weight:300; margin:20px 0px;}
+.page-title .btn{ margin-top:15px;}
+.table-responsive{ font-size:16px; font-weight:300;}
+.table-responsive th{ text-transform:uppercase; font-weight:700;}
+.table-responsive th, .table-responsive td{ padding:14px !important;}
+.table-responsive .action{ font-size:16px;}
+
+.action .fa-arrow-down, .action .fa-arrow-up{ color:#777777;}
+.action .fa-refresh{ color:#009bd5; margin-left:20px;}
+.action .fa-edit{ color:#0dd57e; margin-left:20px;}
+.action .fa-close{ color:#f55252; margin-left:20px;}
+
+input.form-control{ height:40px; padding:12px 12px;}
+.form-group label{ font-size:15px;}
+
+.reorder-feed .date{ font-size:13px; color:#999}

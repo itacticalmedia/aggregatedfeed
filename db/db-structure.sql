@@ -127,8 +127,8 @@ CREATE TABLE `feed` (
   `feedPriority` int(11) DEFAULT NULL,
   `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createdBy` int(11) NOT NULL,
-  `modifiedDate` datetime DEFAULT NULL,
-  `modifieddBy` int(11) DEFAULT NULL,
+  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

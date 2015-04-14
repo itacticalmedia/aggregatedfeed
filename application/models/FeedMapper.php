@@ -52,14 +52,15 @@ class Application_Model_FeedMapper extends Application_Model_MapperBase
 
         if (null === ($id = $feed->getId()))
         {
+            $data['modifiedOn']= new Zend_Db_Expr('NOW()');
             $data['createdBy']= $by;
             unset($data['id']);
             return $this->getDbTable()->insert($data);
         }
         else
         {
-            $data['modifieDate']= new Zend_Db_Expr('NOW()');
-            $data['modifieBy']= $by;
+            $data['modifiedOn']= new Zend_Db_Expr('NOW()');
+            $data['modifiedBy']= $by;
             $this->getDbTable()->update($data, array('id = ?' => $id));
             return $id;
         }

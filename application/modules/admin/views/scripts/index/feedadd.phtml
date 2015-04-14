@@ -1,0 +1,33 @@
+<?php echo $this->message();?>
+<div class="row page-title">
+		<div class="col-md-12">
+			<button class="btn btn-lg btn-primary pull-right">Add Feed</button>
+			<h1 class="pull-left">Add/Edit Feed</h1>
+			
+		</div><!-- /.col-md-8 -->
+		
+		<div class="clearfix"></div>
+	</div><!-- / page title -->
+    
+    
+    <div class="col-lg-4">
+      <form enctype="multipart/form-data" method="post" action="<?php echo  BASE_URL_ADMIN; ?>/index/feedsave" name="feedSave" onsubmit="return validFeedSave(this)">
+        <input type="hidden" name="id" value="<?php echo $this->id ?>">
+		<div class="form-group">
+          <label>Feed Name</label>
+          <input type="text" placeholder="" name="feedName" class="form-control" value="<?php echo $this->feedName ?>">
+        </div>
+		<div class="form-group">
+          <label>Feed Url</label>
+          <input type="text" placeholder="" name="feedUrl" class="form-control" value="<?php echo $this->feedUrl ?>">
+        </div>
+		
+		<div class="form-group">
+          <label>Item Tag</label>
+          <input type="text" placeholder="" name="itemTag" class="form-control" value="<?php echo $this->itemTag ?>">
+        </div>
+        <button type="button" class="btn btn-lg btn-default" onclick="javascript:document.location.href='<?php echo  BASE_URL_ADMIN?>'" >Cancel</button> 
+        <button type="submit" class="btn btn-lg btn-success">Submit</button>
+      </form>
+	</div>
+    

@@ -77,7 +77,40 @@ function deleteUser(url)
     if (!arguments[1])
     {
         return _customConfirm("Are you sure you want to delete this user?", function() {
-            deleteRole(url, true);
+            deleteUser(url, true);
+        });
+    }
+
+    document.location.href = url;
+}
+
+function validFeedSave(frm)
+{
+    var errors = [];
+    if (frm.feedName.value.trim() == '')
+    {
+        errors.push('Please enter Name');
+    }
+    if (frm.feedUrl.value.trim() == '')
+    {
+        errors.push('Please enter url');
+    }
+    if (frm.itemTag.value.trim() == '')
+    {
+        errors.push('Please select item Tag');
+    }
+
+    if (errors.length > 0)
+        _customAlert(errors.join('<br/>'));
+    return (errors.length == 0);
+}
+
+function deleteFeed(url)
+{
+    if (!arguments[1])
+    {
+        return _customConfirm("Are you delete this Feed?", function() {
+            deleteFeed(url, true);
         });
     }
 

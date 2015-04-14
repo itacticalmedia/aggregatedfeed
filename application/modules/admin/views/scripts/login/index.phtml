@@ -1,43 +1,26 @@
-<?php echo $this->message();?>
+<?php echo $this->message(); ?>
 <form action="<?php
 echo $this->url(array(
     'action' => 'auth'
 ));
 ?>" enctype="application/x-www-form-urlencoded" method="post" class="form-signin" onsubmit="return checkValidation();">
-    <div class="login-wrap">
-    <p>Master Admin Login</p>   
-        <div id="txtUserMsg" class="login-error"></div> 
-        <input type="text" name="username" class="form-control" placeholder="User ID" autofocus="" id="txtUser"> 
-        <div id="txtPassMsg" class="login-error"></div> 
-        <input type="password" name="password" class="form-control" placeholder="Password" id="txtPass">            
-        <label class="checkbox">
+
+
+    <div class="list-group">
+        <div class="form-group input-group email">
+            <span class="input-group-addon fa fa-envelope-o"></span>
+            <input type="text" name="username" class="form-control" placeholder="Email Address" required>
+        </div>
+
+        <div class="form-group input-group password">
+            <span class="input-group-addon fa fa-lock"></span>
+            <input type="password" name="password"  class="form-control" placeholder="Password" required>
+        </div>
+        <!--<label class="checkbox">
             <input type="checkbox" name="remember_me" value="remember-me"> Remember me                
-        </label>
-        <button type="submit" class="btn btn-login " name="btnSubmit" value="Submit">Submit</button>             
+        </label>-->
     </div>
+
+    <button class="btn btn-lg btn-primary btn-block login" name="btnSubmit" type="submit">Login In</button>
+
 </form>
-<script>
-    function checkValidation()
-    {
-        if($('#txtUser').val() === '')
-        {
-            $( "#txtUser" ).animate({
-                backgroundColor: "##FF5250",
-                color: "#fff"
-            }, 1000);
-            $('#txtUserMsg').html('Username can not be blank');
-            
-            return false;
-        }
-        else if($('#txtPass').val() === '')
-        {
-            $( "#txtPass" ).animate({
-                backgroundColor: "##FF5250",
-                color: "#fff"
-            }, 1000);
-            $('#txtPassMsg').html('Password can not be blank');
-            return false;
-        }
-         
-    }
-</script>

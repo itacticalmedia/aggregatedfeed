@@ -1,6 +1,10 @@
 <?php
 $sessionNameSpace = Zend_Registry::get('SESS_admin');
-$user = $sessionNameSpace->user;
+$bdCls = '';
+if (!$user = $sessionNameSpace->user)
+{
+    $bdCls = 'loginPage';
+}
 
 echo $this->doctype();
 ?>
@@ -10,56 +14,86 @@ echo $this->doctype();
         <?php echo $this->headTitle() ?>
         <meta name="generator" content="Bootply" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/site.css" />  
+            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/font-awesome.css" />  
+            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/bootstrap.css" />  
+            <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/style.css" />  
             <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/css/jquery/jquery-ui.css" />
 
             <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery/jquery-2.1.1.js" ></script>   
             <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery/jquery-ui.js" ></script>
+            <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/jquery.rowsorter.js" ></script>
             <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/site.js" ></script>
             <script type="text/javascript" src="<?php echo BASE_URL; ?>/js/admin.js" ></script>    
     </head> 
-    <body>
+    <body class="<?php echo $bdCls ?>">
+
 
 
         <div id="dialog-custom-confirm" title="" style="display: none;"></div>
-        <!-- Header -->
-        <div id="top-nav" class="navbar navbar-inverse navbar-static-top" style="height: 50px;background-color: #D1F2F9">
-            HEADER -- Aggregated Feed
-            <div style="float: right">
-                <?php
-                if ($user instanceof Application_Model_User && $user->getId() > 0)
-                {
-                ?>
-                    Well Come <?php echo $user->getFullName();?>
-                    <a href="<?php echo $this->url(array('action' => 'logout', 'controller' => 'login')) ?>">LOG OUT</a>
-                <?php 
-                }
-                ?>
-            </div>
+        <?php
+        if ($user instanceof Application_Model_User && $user->getId() > 0)
+        {
+        ?>
+        <nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-full">
+	    <div class="navbar-header">
+    	    <a href="#" class="navbar-brand"><img src="<?php echo BASE_URL?>/images/emmis_logo_small.png" alt=""></a>
         </div>
-        <!-- /Header --> 
-
-
-        <div class="container">
-            <?php
-            if ($user instanceof Application_Model_User && $user->getId() > 0)
-            {
-                ?>
-                <div class="col-mm-1 custom-menu navbar-collapse collapse">
-                    <!-- Menu -->                   
-                    <?php
-                    $partial = array('menu.phtml', 'default');
-                    $this->navigation()->menu()->setPartial($partial);
-                    echo $this->navigation()->menu()->render();
-                    ?>
-                </div>
-                <?php
-            }
+    </div>
+</nav>
+        <div id="page-wrapper">
+             <?php echo $this->layout()->content ?>
+        </div>
+        <?php
+        }
+        else
+        {
             ?>
-            <br>
-                <?php echo $this->layout()->content ?>
-        </div>
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-5 login-box">
+                        <div class="logo">
+                            <img src="<?php echo BASE_URL?>/images/emmis_logo.png">
+                                <h2>Feed Aggregator Tool</h2>
+                        </div>
+                        <?php echo $this->layout()->content ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+        }
+        ?>
 
 
+        <?php
+        /* if ($user instanceof Application_Model_User && $user->getId() > 0)
+          {
+          ?>
+          Well Come <?php echo $user->getFullName(); ?>
+          <a href="<?php echo $this->url(array('action' => 'logout', 'controller' => 'login')) ?>">LOG OUT</a>
+          <?php
+          } */
+        ?>
+
+
+
+        <?php
+        /* if ($user instanceof Application_Model_User && $user->getId() > 0)
+          {
+          ?>
+          <div class="col-mm-1 custom-menu navbar-collapse collapse">
+          <!-- Menu -->
+          <?php
+          $partial = array('menu.phtml', 'default');
+          $this->navigation()->menu()->setPartial($partial);
+          echo $this->navigation()->menu()->render();
+          ?>
+          </div>
+          <?php
+          } */
+        ?>
     </body>
 </html>
