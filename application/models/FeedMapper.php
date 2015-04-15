@@ -10,6 +10,14 @@ class Application_Model_FeedMapper extends Application_Model_MapperBase
      */
     protected $_name = 'feed';
 
+   /**
+    * 
+    * @param int $page
+    * @param int $limit
+    * @param array $orderBy
+    * @param array $search
+    * @return Application_Model_Feed[] | array | boolean
+    */
     public function loadAll($page = FALSE, $limit = Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, $orderBy = array(), $search = array())
     {
         $select = $this->getDbTable()->select();

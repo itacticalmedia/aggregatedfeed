@@ -132,28 +132,34 @@ class Application_Model_Feed extends Application_Model_Base
     public function getFeed()
     {
         $data = array();
-        
-        if ($this->getFeedUrl() != '')
-        {
-            $feed = Zend_Feed_Reader::import($this->getFeedUrl());
 
-            foreach ($feed as $entry)
-            {              
-                $data[] = array(
-                    'title' => $entry->getTitle(),
-                    'description' => $entry->getDescription(),
-                    'dateModified' => $entry->getDateModified(),
-                    'authors' => $entry->getAuthors(),
-                    'link' => $entry->getLink(),
-                    'content' => $entry->getContent()
-                );
+        try
+        {
+            if ($this->getFeedUrl() != '')
+            {
+                $feed = Zend_Feed_Reader::import($this->getFeedUrl());
+
+                foreach ($feed as $entry)
+                {
+                    $data[] = array(
+                        'title' => $entry->getTitle(),
+                        'description' => $entry->getDescription(),
+                        'dateModified' => $entry->getDateModified(),
+                        'authors' => $entry->getAuthors(),
+                        'link' => $entry->getLink(),
+                        'content' => $entry->getContent()
+                    );
+                }
             }
-            
         }
-        
+        catch (Exception $ex)
+        {
+            throw new Exception($ex->getMessage());
+        }
+
         return $data;
     }
-    
+
     public function insertFeedData()
     {
         $feed = $this->getFeed();
@@ -163,7 +169,7 @@ class Application_Model_Feed extends Application_Model_Base
             foreach ($feed as $entry)
             {
                 $fdata = new Application_Model_FeedData();
-                $fdata->setId(NULL);
+                
                 $fdata->setFeedId($this->getId());
                 $fdata->setTitle($entry['title']);
                 $fdata->setDescription($entry['description']);
@@ -171,18 +177,24 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setData($entry['content']);
                 $fdata->setOriginalPosition(0);
                 $fdata->setNewPosition(0);
-                $dtModfied = $entry['dateModified'];
-
-                if (!$fdata->isExist())
+                $fdata->setViewed(0);
+                
+                $dtModfied = $entry['dateModified'];                
+                if ($dtModfied instanceof Zend_Date)
                 {
-                    if ($dtModfied instanceof Zend_Date)
-                    {
-                        $fdata->setPublishDate($dtModfied->getDate());
-                    }
+                    $fdata->setPublishDate($dtModfied->getIso());
+                }
                     
-                    $this->saveFeedData($fdata);
+                if (FALSE ===($feedDataId = $fdata->isExist()) )
+                {   
+                    $fdata->setId(NULL);
+                }
+                else
+                {
+                    $fdata->setId($feedDataId);
                 }
                 
+                $this->saveFeedData($fdata);
                 unset($fdata);
             }
         }

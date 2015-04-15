@@ -17,24 +17,36 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     */
     public function save(Application_Model_FeedData $feeddata)
     {
-        $data = array(
-            'feedId' => $feeddata->getFeedId(),            
-            'title' => $feeddata->getTitle(),
-            'link' => $feeddata->getLink(),
-            'description' => $feeddata->getDescription(),
-            'data' => $feeddata->getData(),
-            'publishDate' => $feeddata->getPublishDate(),
-            'originalPosition' => $feeddata->getOriginalPosition(),
-            'newPosition' => $feeddata->getNewPosition()
-        );
+        
         
         if (null === ($id = $feeddata->getId()))
         {
+            $data = array(
+                'feedId' => $feeddata->getFeedId(),            
+                'title' => $feeddata->getTitle(),
+                'link' => $feeddata->getLink(),
+                'description' => $feeddata->getDescription(),
+                'data' => $feeddata->getData(),
+                'publishDate' => $feeddata->getPublishDate(),
+                'originalPosition' => $feeddata->getOriginalPosition(),
+                'newPosition' => $feeddata->getNewPosition(),
+                'viewed' => $feeddata->getViewed()
+            );
+            
             unset($data['id']);
             return $this->getDbTable()->insert($data);
         }
         else
         {
+            
+            
+            $data = array(                       
+                'title' => $feeddata->getTitle(),               
+                'description' => $feeddata->getDescription(),
+                'data' => $feeddata->getData(),
+                'publishDate' => $feeddata->getPublishDate()                
+            );
+            
             $this->getDbTable()->update($data, array('id = ?' => $id));
             return $id;
         }
@@ -54,24 +66,24 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     }
     
     /**
-     * 
+     * If exist return the ID else FALSE
      * @param Application_Model_FeedData $feeddata
-     * @return boolean
+     * @return int|boolean
      */
     public function isExist(Application_Model_FeedData $feeddata)
     {
        $table = $this->getDbTable();
 
         $select = $table->select()
-            ->from(array($this->getTableName()), array("totalRecords" => "count(1)"))
+            ->from(array($this->getTableName()), array("id"))
             ->where("feedId = ?", $feeddata->getFeedId())
             ->where("link = ?", $feeddata->getLink());
                 
         $row = $table->fetchRow($select);
         
-        if($row['totalRecords'] > 0)
+        if($row)
         {
-            return TRUE;
+            return $row['id'];
         }
         else
         {
