@@ -4,7 +4,7 @@ class Admin_FeeddataController extends Plugin_Inject
 {
 
     public function init()
-{
+    {
         parent::init();
         $this->sessionNameSpace = $this->view->sessionNameSpace = Zend_Registry::get('SESS_admin');
         if (!isset($this->sessionNameSpace->user))
@@ -21,7 +21,7 @@ class Admin_FeeddataController extends Plugin_Inject
         if ($id > 0)
         {
             $r = new Application_Model_Feed($id);
-            if(empty($r->_id))
+            if (empty($r->_id))
             {
                 throw new Exception("Bad data");
             }
@@ -29,7 +29,6 @@ class Admin_FeeddataController extends Plugin_Inject
             $this->view->feedName = $r->getFeedName();
             $this->view->feedUrl = $r->getFeedUrl();
             $this->view->itemTag = $r->getItemTag();
-           
         }
         else
         {
@@ -37,14 +36,14 @@ class Admin_FeeddataController extends Plugin_Inject
         }
         //array('col' => 'feedPriority', 'type' => 'ASC')
         $map = new Application_Model_FeedDataMapper();
-        $search = array(array("col" => "feedId", "value" => $id));
+        $search = array(
+            array("col" => "feedId", "value" => $id)
+        );
         $data = $map->loadAll(FALSE, 0, array(), $search);
 
         $this->view->feeddata = $data;
-        
     }
 
-   
     public function feeddatareorderAction()
     {
         $this->_helper->layout->disableLayout();
@@ -53,7 +52,7 @@ class Admin_FeeddataController extends Plugin_Inject
         $request = $this->request->getParams();
         if ($this->request->isPost())
         {
-           
+
 
             if (count($msg) > 0)
             {
@@ -62,7 +61,5 @@ class Admin_FeeddataController extends Plugin_Inject
             $this->gotoPage('feedadd', 'index');
         }
     }
-
-   
 
 }
