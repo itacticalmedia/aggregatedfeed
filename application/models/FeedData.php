@@ -25,7 +25,25 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_feedId;
     }
 
-    
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setTitle($v)
+    {
+        $this->_title = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
+
     public function setData($a)
     {
         $this->_data = $a;
@@ -75,6 +93,43 @@ class Application_Model_FeedData extends Application_Model_Base
     {
         $m = new Application_Model_FeedDataMapper();
         return $m->delete($this);
+    }
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setLink($v)
+    {
+        $this->_link = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getLink()
+    {
+        return $this->_link;
+    }
+
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setDescription($v)
+    {
+        $this->_description = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getDescription()
+    {
+        return $this->_description;
     }
 
 }

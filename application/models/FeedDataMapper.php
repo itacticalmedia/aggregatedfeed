@@ -44,6 +44,30 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         return $table->delete($where);
 
     }
-    
-   
+
+    public function loadAll($page = FALSE, $limit = Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, $orderBy = array(), $search = array())
+    {
+        $select = $this->getDbTable()->select();
+
+        if (count($search) > 0)
+        {
+            foreach ($search as $searchAr)
+            {
+                $op = ' = ?';
+                if (isset($searchAr['op']) && $searchAr['op'] != '')
+                {
+                    $op = $searchAr['op'];
+                }
+                $select->orWhere($searchAr['col'] . ' ' . $op . ' ', $searchAr['value']);
+            }
+        }
+        if (count($orderBy) > 0)
+        {
+            $select->order($orderBy['col'] . " " . $orderBy['type']);
+        }
+     
+        $res = $this->paginator($select, $page, $limit);
+        return $res;
+    }
+
 }
