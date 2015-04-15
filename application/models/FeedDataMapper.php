@@ -117,5 +117,13 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $res = $this->paginator($select, $page, $limit);
         return $res;
     }
+    
+    public function deleteByFeed(Application_Model_Feed $feed)
+    {
+        $table = $this->getDbTable();
+        $where = $table->getAdapter()->quoteInto('feedId = ?', $feed->getId());
+        return $table->delete($where);
+
+    }
 
 }
