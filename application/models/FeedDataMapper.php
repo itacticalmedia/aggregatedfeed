@@ -29,7 +29,8 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 'data' => $feeddata->getData(),
                 'publishDate' => $feeddata->getPublishDate(),
                 'originalPosition' => $feeddata->getOriginalPosition(),
-                'newPosition' => $feeddata->getNewPosition()
+                'newPosition' => $feeddata->getNewPosition(),
+                'viewed' => $feeddata->getViewed()
             );
             
             unset($data['id']);

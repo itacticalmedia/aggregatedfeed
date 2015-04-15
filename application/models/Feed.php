@@ -177,6 +177,8 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setData($entry['content']);
                 $fdata->setOriginalPosition(0);
                 $fdata->setNewPosition(0);
+                $fdata->setViewed(0);
+                
                 $dtModfied = $entry['dateModified'];                
                 if ($dtModfied instanceof Zend_Date)
                 {
