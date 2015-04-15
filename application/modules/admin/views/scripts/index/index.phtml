@@ -40,7 +40,7 @@
                         <tr fid="<?php echo $feed->getId() ?>">
                             <td class=""><?php echo $feed->getFeedName() ?></td>
                             <td><?php echo $feed->getFeedUrl() ?></td>
-                            <td><?php echo $feed->getModifiedOn() ?></td> 
+                            <td><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($feed->getModifiedOn(),1) ?></td> 
                             <td class=""><?php echo $feed->getFeedPriority() ?></td>
                             <td class="action">
                                 <a href="<?php echo BASE_URL_ADMIN; ?>/index/feededit/id/<?php echo $feed->getId() ?>">
