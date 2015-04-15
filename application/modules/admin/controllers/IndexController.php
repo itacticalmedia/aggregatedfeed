@@ -136,5 +136,15 @@ class Admin_IndexController extends Plugin_Inject
             throw new Exception("Invalid request");
         }
     }
+    
+    
+    public function insfeedAction()
+    {
+        $fd = new Application_Model_Feed(3);
+        $feed = $fd->insertFeedData();
+        
+        echo '<pre>'; print_r($feed);
+        die;
+    }
 
 }
