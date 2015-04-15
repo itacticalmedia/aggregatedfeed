@@ -25,7 +25,17 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_feedId;
     }
 
-    
+  
+
+    /**
+     * @return type
+     */
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
+
     public function setData($a)
     {
         $this->_data = $a;
@@ -77,47 +87,76 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this;
     }
 
-    public function getTitle()
-    {
-        return $this->_title;
-    }
-    
-    public function setDescription($a)
-    {
-        $this->_description = $a;
-        return $this;
-    }
-
-    public function getDescription()
-    {
-        return $this->_description;
-    }
-    
-    public function setLink($a)
-    {
-        $this->_link = $a;
-        return $this;
-    }
-
-    public function getLink()
-    {
-        return $this->_link;
-    }
-    
+   
     public function delete()
     {
         $m = new Application_Model_FeedDataMapper();
         return $m->delete($this);
     }
     
-   /**
+    /**
      * If exist return the ID else FALSE
      * @param Application_Model_FeedData $feeddata
      * @return int|boolean
-     */
+     */    
     public function isExist()
     {
         $mp = new Application_Model_FeedDataMapper();
         return $mp->isExist($this);
     }
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setLink($v)
+    {
+        $this->_link = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getLink()
+    {
+        return $this->_link;
+    }
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setDescription($v)
+    {
+        $this->_description = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getDescription()
+    {
+        return $this->_description;
+    }
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setViewed($v)
+    {
+        $this->_viewed = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getViewed()
+    {
+        return $this->_viewed;
+    }
+
 }

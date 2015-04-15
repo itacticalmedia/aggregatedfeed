@@ -1,0 +1,66 @@
+<style>
+    table.sorting-table {cursor: move;}
+    table tr.sorting-row td {background-color: #8b8;}
+    table td.sorter {background-color: #f80; width: 10px; cursor: move;}
+    table tr.nodrag td.sorter {cursor: default; background-color: #ddd;}
+    .sort-handler {float: right; background-color: #f80; width: 14px; height: 14px; margin: 2px 0 0 6px; cursor: move;}
+</style>
+<?php echo $this->message(); ?>
+
+<div class="row page-title">
+    <div class="col-md-12">
+        <button class="btn btn-lg btn-primary pull-right">Refresh</button>
+        <h1 class="pull-left">Reorder Feed - <?php echo $this->feedName ?></h1>
+
+    </div><!-- /.col-md-8 -->
+
+    <div class="clearfix"></div>
+</div><!-- / page title -->
+<div class="col-lg-12">
+    <div class="table-responsive reorder-feed">
+        <table class="table table-bordered table-striped" id="reorder-feed-table">
+            <thead>
+                <tr>
+                    <th>Feed Data</th>
+                    <th>Order</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                if ($this->feeddata)
+                {
+                    $rowclass = '';
+                    foreach ($this->feeddata as $data)
+                    {
+                        ?>
+                <tr>
+                            <td>
+                                <a href="#"><?php echo $data->getTitle() ?></a>
+                                <p class="date"><?php echo $data->getPublishDate() ?></p>
+                                                <p><?php echo $data->getDescription() ?> </p>
+                                    </td>
+                            <td class="action"><a href="#"><i class="fa fa-arrow-down"></i ><i class="fa fa-arrow-up"></i ></a></td>
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+
+
+
+            </tbody>
+        </table>
+    </div><!-- / responsive table  -->
+</div>
+
+<script>
+
+    $("#tab-sort-feed").rowSorter({
+        onDrop: function (tbody, row, index, oldIndex) {
+            alert((oldIndex + 1) + ". row moved to " + (index + 1));
+        }
+    });
+
+</script>
