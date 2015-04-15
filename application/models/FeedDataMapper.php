@@ -113,7 +113,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         {
             $select->order($orderBy['col'] . " " . $orderBy['type']);
         }
-     
+
         $res = $this->paginator($select, $page, $limit);
         return $res;
     }
