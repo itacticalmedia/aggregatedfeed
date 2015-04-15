@@ -115,7 +115,10 @@ class Application_Model_Feed extends Application_Model_Base
     public function delete()
     {
         $m = new Application_Model_FeedMapper();
-        return $m->delete($this);
+        $m->delete($this);
+        
+        $md  = new Application_Model_FeedDataMapper();
+        $md->deleteByFeed($this);
     }
     
     public function saveFeedData(Application_Model_FeedData $feeddata)
