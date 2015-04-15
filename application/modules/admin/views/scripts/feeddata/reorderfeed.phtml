@@ -10,8 +10,7 @@
 <div class="row page-title">
     <div class="col-md-12">
         <button class="btn btn-lg btn-primary pull-right" onclick="javascript:document.location.href = '<?php echo BASE_URL_ADMIN . "/index" ?>'">Back</button>
-        &nbsp; <button class="btn btn-lg btn-primary pull-right" onclick="javascript:document.location.href = '<?php echo BASE_URL_ADMIN . "/feeddata/refreshfeed/feedid/" . $this->feedid ?>'">Refresh</button>
-        <h1 class="pull-left"><?php echo $this->feedName ?></h1>
+        <h1 class="pull-left">Reorder Feed </h1>
 
     </div><!-- /.col-md-8 -->
 
@@ -23,7 +22,7 @@
             <thead>
                 <tr>
                     <th>Feed Data</th>
-<!--                    <th>Order</th>-->
+
 
                 </tr>
             </thead>
@@ -40,9 +39,9 @@
                             <td>
                                 <a href="<?php echo $data->getLink() ?>" target="_blank"><?php echo $data->getTitle() ?></a>
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
-                                  <p><?php echo  $data->getDescription()  ?> </p>
+                                 
                                     </td>
-                            <!--<td class="action"><a href="#"><i class="fa fa-arrow-down"></i ><i class="fa fa-arrow-up"></i ></a></td>-->
+                           
                         </tr>
                         <?php
                     }

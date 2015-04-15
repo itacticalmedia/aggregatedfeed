@@ -106,7 +106,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 {
                     $op = $searchAr['op'];
                 }
-                $select->orWhere($searchAr['col'] . ' ' . $op . ' ', $searchAr['value']);
+                $select->Where($searchAr['col'] . ' ' . $op . ' ', $searchAr['value']);
             }
         }
         if (count($orderBy) > 0)
@@ -116,6 +116,55 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
         $res = $this->paginator($select, $page, $limit);
         return $res;
+    }
+
+    public function refreshFeed($feedId)
+    {
+        $data = array(
+            'viewed' => 1
+        );
+
+        return $this->getDbTable()->update($data, array('viewed = ?' => 0, "feedId=?" => $feedId));
+    }
+
+    public function getMaxOrdered()
+    {
+        $table = $this->getDbTable();
+        $sel = $table->select()
+                ->from(
+                array($this->getTableName())
+                , 'MAX(IFNULL(newPosition,0)) maxOrd'
+        );
+
+        $row = $table->fetchRow($sel);
+        return $row->maxOrd;
+    }
+
+    public function makeOrder($id, $oldIndex, $newIndex)
+    {
+        $dba = Zend_Db_Table_Abstract::getDefaultAdapter();
+        if ($oldIndex < $newIndex)
+        {
+            $qm = "UPDATE feedData set newPosition = ? where id = ?";
+            $dba->query($qm, array($newIndex, $id));
+
+            $q = "UPDATE feedData set newPosition = newPosition-1 where newPosition<=? and newPosition>=? and id!=? and newPosition>1";
+
+            $dba->query($q, array($newIndex, $oldIndex, $id));
+        }
+        if ($oldIndex > $newIndex)
+        {
+            $maxInd = $this->getMaxOrdered();
+
+            $qm = "UPDATE feedData set newPosition = ? where id = ?";
+            $dba->query($qm, array($newIndex, $id));
+
+            $q = "UPDATE feedData set newPosition = newPosition+1 where newPosition>=? and newPosition<=? and id!=? and newPosition < ?";
+
+            $dba->query($q, array($newIndex, $oldIndex, $id, $maxInd));
+
+            //die;
+        }
     }
 
 }

@@ -37,29 +37,39 @@ class Admin_FeeddataController extends Plugin_Inject
         //array('col' => 'feedPriority', 'type' => 'ASC')
         $map = new Application_Model_FeedDataMapper();
         $search = array(
-            array("col" => "feedId", "value" => $id)
+            array("col" => "feedId", "value" => $id),
+            array("col" => "viewed", "value" => 1)
         );
-        $data = $map->loadAll(FALSE, 0, array(), $search);
+        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "asc"), $search);
 
         $this->view->feeddata = $data;
     }
 
-    public function feeddatareorderAction()
+    public function reorderfeedAction()
+    {
+       
+        $map = new Application_Model_FeedDataMapper();
+        $search = array(
+            array("col" => "viewed", "value" => 1)
+        );
+        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "asc"), $search);
+
+        $this->view->feeddata = $data;
+    }
+
+    public function refreshfeedAction()
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
-        $request = $this->request->getParams();
-        if ($this->request->isPost())
-        {
+        $id = $this->request->getParam('feedid');
+        $map = new Application_Model_FeedDataMapper();
+        $map->refreshFeed($id);
 
+        $Succmsg[] = "Feed has been refreshed successfully.";
+        $this->_helper->flashMessenger->addMessage(array("success" => $Succmsg));
 
-            if (count($msg) > 0)
-            {
-                $this->_helper->flashMessenger->addMessage(array("error" => $msg));
-            }
-            $this->gotoPage('feedadd', 'index');
-        }
+        $this->gotoPage('index', 'feeddata', 'admin', array("feedid" => $id));
     }
 
 }
