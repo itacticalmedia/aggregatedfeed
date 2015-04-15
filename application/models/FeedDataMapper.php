@@ -126,13 +126,13 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
     }
 
-    public function refreshFeed($feedId)
+    public function refreshFeed()
     {
         $data = array(
             'viewed' => 1
         );
 
-        return $this->getDbTable()->update($data, array('viewed = ?' => 0, "feedId=?" => $feedId));
+        return $this->getDbTable()->update($data, array('viewed = ?' => 0));
     }
 
     public function getMaxOrdered()

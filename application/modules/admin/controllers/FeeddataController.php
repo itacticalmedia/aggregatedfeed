@@ -62,14 +62,14 @@ class Admin_FeeddataController extends Plugin_Inject
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
-        $id = $this->request->getParam('feedid');
+       
         $map = new Application_Model_FeedDataMapper();
-        $map->refreshFeed($id);
+        $map->refreshFeed();
 
         $Succmsg[] = "Feed has been refreshed successfully.";
         $this->_helper->flashMessenger->addMessage(array("success" => $Succmsg));
 
-        $this->gotoPage('index', 'feeddata', 'admin', array("feedid" => $id));
+        $this->gotoPage('reorderfeed', 'feeddata', 'admin');
     }
 
 }
