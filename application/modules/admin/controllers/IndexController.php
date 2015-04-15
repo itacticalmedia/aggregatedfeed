@@ -55,7 +55,6 @@ class Admin_IndexController extends Plugin_Inject
 
                 $feedName = $request["feedName"];
                 $feedUrl = $request["feedUrl"];
-                $feedPriority = $request["feedPriority"];
                 $itemTag = $request["itemTag"];
 
 
@@ -73,7 +72,6 @@ class Admin_IndexController extends Plugin_Inject
                 }
                 $r->setFeedName($feedName);
                 $r->setFeedUrl($feedUrl);
-                $r->setFeedPriority($feedPriority);
                 $r->setItemTag($itemTag);
 
                 $res = $r->save();
@@ -135,6 +133,33 @@ class Admin_IndexController extends Plugin_Inject
         {
             throw new Exception("Invalid request");
         }
+    }
+    
+    
+    public function insfeedAction()
+    {
+        $fd = new Application_Model_Feed(3);
+        $feed = $fd->insertFeedData();
+        
+        echo '<pre>'; print_r($feed);
+        die;
+    }
+
+    public function feedorderAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $request = $this->request->getParams();
+
+        $msg = array();
+        $id = $request["id"];
+        $oldIndex = $request["oldIndex"];
+        $newIndex = $request["newIndex"];
+       
+        $m = new Application_Model_FeedMapper();
+        $m->makeOrder($id,$oldIndex, $newIndex);
+        $this->gotoPage('index', 'index');
     }
 
 }

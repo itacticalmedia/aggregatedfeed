@@ -124,5 +124,68 @@ class Application_Model_Feed extends Application_Model_Base
         $m = new Application_Model_FeedDataMapper();
         return $m->save($feeddata);
     }
+    
+    /**
+     * Return array of feeds
+     * @return array
+     */
+    public function getFeed()
+    {
+        $data = array();
+        
+        if ($this->getFeedUrl() != '')
+        {
+            $feed = Zend_Feed_Reader::import($this->getFeedUrl());
+
+            foreach ($feed as $entry)
+            {              
+                $data[] = array(
+                    'title' => $entry->getTitle(),
+                    'description' => $entry->getDescription(),
+                    'dateModified' => $entry->getDateModified(),
+                    'authors' => $entry->getAuthors(),
+                    'link' => $entry->getLink(),
+                    'content' => $entry->getContent()
+                );
+            }
+            
+        }
+        
+        return $data;
+    }
+    
+    public function insertFeedData()
+    {
+        $feed = $this->getFeed();
+
+        if (is_array($feed) && count($feed) > 0)
+        {
+            foreach ($feed as $entry)
+            {
+                $fdata = new Application_Model_FeedData();
+                $fdata->setId(NULL);
+                $fdata->setFeedId($this->getId());
+                $fdata->setTitle($entry['title']);
+                $fdata->setDescription($entry['description']);
+                $fdata->setLink($entry['link']);
+                $fdata->setData($entry['content']);
+                $fdata->setOriginalPosition(0);
+                $fdata->setNewPosition(0);
+                $dtModfied = $entry['dateModified'];
+
+                if (!$fdata->isExist())
+                {
+                    if ($dtModfied instanceof Zend_Date)
+                    {
+                        $fdata->setPublishDate($dtModfied->getDate());
+                    }
+                    
+                    $this->saveFeedData($fdata);
+                }
+                
+                unset($fdata);
+            }
+        }
+    }
 
 }

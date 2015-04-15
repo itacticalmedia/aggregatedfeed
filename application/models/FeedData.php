@@ -88,11 +88,50 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_newPosition;
     }
 
+    
+    public function setTitle($a)
+    {
+        $this->_title = $a;
+        return $this;
+    }
 
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+    
+    public function setDescription($a)
+    {
+        $this->_description = $a;
+        return $this;
+    }
+
+    public function getDescription()
+    {
+        return $this->_description;
+    }
+    
+    public function setLink($a)
+    {
+        $this->_link = $a;
+        return $this;
+    }
+
+    public function getLink()
+    {
+        return $this->_link;
+    }
+    
     public function delete()
     {
         $m = new Application_Model_FeedDataMapper();
         return $m->delete($this);
+    }
+    
+    public function isExist()
+    {
+        $mp = new Application_Model_FeedDataMapper();
+        return $mp->isExist($this);
     }
 
     /**
