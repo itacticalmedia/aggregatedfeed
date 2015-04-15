@@ -154,7 +154,7 @@ class Application_Model_Feed extends Application_Model_Base
         }
         catch (Exception $ex)
         {
-            throw new Exception($ex->getMessage());
+            throw new Exception("Error Parsing URL ".$this->getFeedUrl()." :: ".$ex->getMessage());
         }
 
         return $data;

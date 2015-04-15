@@ -23,23 +23,25 @@ class CronjobController extends Plugin_Inject
 
     public function insfeedAction()
     {
-        try
+        //Application_Model_Helpers_Common::doDebug();
+        
+        $fdMp = new Application_Model_FeedMapper();
+        $feedMasters = $fdMp->loadAll();
+
+        if ($feedMasters)
         {
-
-            $fdMp = new Application_Model_FeedMapper();
-            $feedMasters = $fdMp->loadAll();
-
-            if ($feedMasters)
+            foreach ($feedMasters as $feedMaster)
             {
-                foreach ($feedMasters as $feedMaster)
+                try
                 {
                     $feedMaster->insertFeedData();
                 }
+                catch (Exception $ex)
+                {
+                    Application_Model_Helpers_Common::debugprint("Error when reading RSS from cron: " 
+                            . $ex->getMessage());                  
+                }
             }
-        }
-        catch (Exception $ex)
-        {
-            Application_Model_Helpers_Common::debugprint("Error when reading RSS from cron: ".$ex->getTraceAsString());
         }
     }
 
