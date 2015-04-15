@@ -110,6 +110,11 @@ class Application_Model_FeedData extends Application_Model_Base
         return $m->delete($this);
     }
     
+   /**
+     * If exist return the ID else FALSE
+     * @param Application_Model_FeedData $feeddata
+     * @return int|boolean
+     */
     public function isExist()
     {
         $mp = new Application_Model_FeedDataMapper();
