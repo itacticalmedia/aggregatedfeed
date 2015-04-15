@@ -25,15 +25,7 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_feedId;
     }
 
-    /**
-     * @param type $v
-     * @return type
-     */
-    public function setTitle($v)
-    {
-        $this->_title = $v;
-        return $this;
-    }
+  
 
     /**
      * @return type
@@ -95,33 +87,7 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this;
     }
 
-    public function getTitle()
-    {
-        return $this->_title;
-    }
-    
-    public function setDescription($a)
-    {
-        $this->_description = $a;
-        return $this;
-    }
-
-    public function getDescription()
-    {
-        return $this->_description;
-    }
-    
-    public function setLink($a)
-    {
-        $this->_link = $a;
-        return $this;
-    }
-
-    public function getLink()
-    {
-        return $this->_link;
-    }
-    
+   
     public function delete()
     {
         $m = new Application_Model_FeedDataMapper();
