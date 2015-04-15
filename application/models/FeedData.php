@@ -137,4 +137,23 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_description;
     }
 
+
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setViewed($v)
+    {
+        $this->_viewed = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getViewed()
+    {
+        return $this->_viewed;
+    }
+
 }
