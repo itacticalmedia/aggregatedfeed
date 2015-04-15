@@ -30,33 +30,38 @@
                 </tr>
             </thead>
             <tbody>
-                 <?php
-                    if ($this->feeds)
+                <?php
+                if ($this->feeds)
+                {
+                    $rowclass = '';
+                    foreach ($this->feeds as $feed)
                     {
-                        $rowclass = '';
-                        foreach ($this->feeds as $feed)
-                        {
-                            ?>
-                            <tr fid="<?php echo $feed->getId() ?>">
-                                <td class=""><?php echo $feed->getFeedName() ?></td>
-                                <td><?php echo $feed->getFeedUrl() ?></td>
-                                <td><?php echo $feed->getModifiedOn() ?></td> 
-                                <td class=""><?php echo $feed->getFeedPriority() ?></td>
-                                <td class="action">
-                                    <a href="<?php echo BASE_URL_ADMIN; ?>/index/feededit/id/<?php echo $feed->getId() ?>">
-                                        <i class="fa fa-edit"></i></a>
-                                    <a href="javascript:void(0)" onclick="deleteFeed('<?php echo BASE_URL_ADMIN; ?>/index/feeddelete/id/<?php echo $feed->getId() ?>')">
-                                        <i class="fa fa-close"></i></a>
-                                </td>
-                            </tr>
-                            <?php
-                        }
+                        ?>
+                        <tr fid="<?php echo $feed->getId() ?>">
+                            <td class=""><?php echo $feed->getFeedName() ?></td>
+                            <td><?php echo $feed->getFeedUrl() ?></td>
+                            <td><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($feed->getModifiedOn(),1) ?></td> 
+                            <td class=""><?php echo $feed->getFeedPriority() ?></td>
+                            <td class="action">
+                                <a href="<?php echo BASE_URL_ADMIN; ?>/index/feededit/id/<?php echo $feed->getId() ?>">
+                                    <i class="fa fa-edit"></i></a>
+                              
+                                &nbsp; &nbsp;&nbsp;&nbsp;
+                                <a href="<?php echo BASE_URL_ADMIN; ?>/feeddata/index/feedid/<?php echo $feed->getId() ?>">
+                                    <i class="fa fa-database"></i></a>
+                                    
+                                      <a href="javascript:void(0)" onclick="deleteFeed('<?php echo BASE_URL_ADMIN; ?>/index/feeddelete/id/<?php echo $feed->getId() ?>')">
+                                    <i class="fa fa-close"></i></a>
+                            </td>
+                        </tr>
+                        <?php
                     }
-                    ?>
+                }
+                ?>
 
-                    
-                    
-               
+
+
+
 
             </tbody>
         </table>
@@ -64,13 +69,16 @@
 </div>
 
 <script>
+
+    //http://www.jqueryscript.net/table/jQuery-Plugin-For-Drag-n-Drop-Sortable-Table-RowSorter-js.html
+    //http://www.jqueryscript.net/demo/jQuery-Plugin-For-Drag-n-Drop-Sortable-Table-RowSorter-js/
     
     $("#tab-sort-feed").rowSorter({
-		onDrop: function(tbody, row, index, oldIndex) {
+        onDrop: function (tbody, row, index, oldIndex) {
             //alert("ID#"+row.getAttribute("fid")+"  "+(oldIndex + 1) + ". row moved to " + (index + 1));
             //alert(row.getAttribute("fid"));
-			javascript:document.location.href='<?php echo  BASE_URL_ADMIN?>/index/feedorder/id/'+row.getAttribute("fid")+'/oldIndex/'+(oldIndex + 1)+'/newIndex/'+(index + 1);
-		}
-	});
-    
+            javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/index/feedorder/id/' + row.getAttribute("fid") + '/oldIndex/' + (oldIndex + 1) + '/newIndex/' + (index + 1);
+        }
+    });
+
 </script>

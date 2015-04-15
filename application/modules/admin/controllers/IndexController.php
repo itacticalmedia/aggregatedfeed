@@ -74,7 +74,7 @@ class Admin_IndexController extends Plugin_Inject
                 $r->setFeedUrl($feedUrl);
                 $r->setItemTag($itemTag);
 
-                $res = $r->save();
+                $res = $r->save($this->sessionNameSpace->user->getId());
 
                 if ($res > 0)
                 {

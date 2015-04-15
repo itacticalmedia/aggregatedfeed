@@ -32,9 +32,10 @@ class Plugin_Acl extends Zend_Controller_Plugin_Abstract
 
             if (!$aclResource->resourceValid($request))
             {
-                $request->setModuleName('default');
-                $request->setControllerName('error');
-                $request->setActionName('error');
+                //BLOCK , otherwise the error will not show on error page
+                //$request->setModuleName('default');
+                //$request->setControllerName('error');
+                //$request->setActionName('error');
                 return;
             }
 
