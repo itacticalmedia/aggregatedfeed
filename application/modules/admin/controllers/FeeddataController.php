@@ -71,5 +71,22 @@ class Admin_FeeddataController extends Plugin_Inject
 
         $this->gotoPage('index', 'feeddata', 'admin', array("feedid" => $id));
     }
+    
+    public function feeddataorderAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $request = $this->request->getParams();
+
+        $msg = array();
+        $id = $request["id"];
+        $oldIndex = $request["oldIndex"];
+        $newIndex = $request["newIndex"];
+       
+        $m = new Application_Model_FeedDataMapper();
+        $m->makeOrder($id,$oldIndex, $newIndex);
+        $this->gotoPage('reorderfeed', 'feeddata');
+    }
 
 }
