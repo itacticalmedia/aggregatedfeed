@@ -106,10 +106,10 @@ class Application_Model_Feed extends Application_Model_Base
     }
     
     
-    public function save()
+    public function save($by=0)
     {
         $m = new Application_Model_FeedMapper();
-        return $m->save($this);
+        return $m->save($this,$by);
     }
 
     public function delete()

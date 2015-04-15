@@ -46,11 +46,12 @@ class Application_Model_FeedMapper extends Application_Model_MapperBase
             'feedName' => $feed->getFeedName(),
             'feedUrl' => $feed->getFeedUrl(),
             'itemTag' => $feed->getItemTag(),
-            'feedPriority' => $this->getMaxOrdered() + 1
         );
 
         if (null === ($id = $feed->getId()))
         {
+            
+            $data['feedPriority'] = $this->getMaxOrdered() + 1;
             $data['modifiedOn'] = new Zend_Db_Expr('NOW()');
             $data['createdBy'] = $by;
             unset($data['id']);
