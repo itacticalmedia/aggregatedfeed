@@ -127,10 +127,9 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $db = $this->getDbTable()->getDefaultAdapter();
         $select = $db->select()
             ->from(array("fd" => $this->getTableName()))
-            ->joinInner(array("f" => "feed"), "f.id = fd.`feedId`", array())   
+            ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array())   
             ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
-            ->order("DATE(fd.`publishDate`) DESC, f.`feedPriority`");
-       
+            ->order(array("DATE(fd.publishDate) DESC", "f.feedPriority"));       
        return $this->paginator($select, FALSE, 0, "DBSELECT");
        
     }
