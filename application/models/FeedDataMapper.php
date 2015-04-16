@@ -315,7 +315,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $q = "UPDATE feedData set newPosition = $newOrder where id=$id";
 
         Application_Model_Helpers_Common::debugprint("UP::".$q);
-        //$dba->query($q, array($newOrder, $id));
+        $dba->query($q);
           
        
     }

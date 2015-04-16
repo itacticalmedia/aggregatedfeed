@@ -107,7 +107,8 @@ class Admin_FeeddataController extends Plugin_Inject
        
         $m = new Application_Model_FeedDataMapper();
         $m->makeOrder($id,$betweenFromId, $betweenToId);
-        $this->gotoPage('reorderfeed', 'feeddata',  $this->moduleName,array("fromdate"=>$fromdate));
+        //$this->gotoPage('reorderfeed', 'feeddata',  $this->moduleName,array("?fromdate"=>$fromdate));
+        $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate);
     }
 
 }
