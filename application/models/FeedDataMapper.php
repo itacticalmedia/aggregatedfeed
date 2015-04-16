@@ -109,11 +109,11 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
             if ($fromdate != "")
             {
-                $select->where("publishDate >=?", $fromdate);
+                $select->where("date(publishDate) >=?", $fromdate);
             }
             if ($todate != "")
             {
-                $select->where("publishDate <=?", $todate);
+                $select->where("date(publishDate) <=?", $todate);
             }
         }
      
@@ -151,7 +151,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $table = $this->getDbTable();
         $select = $table->select()
                 ->where("viewed = ?", Application_Model_FeedData::VIEWED)
-                ->order("newPosition");
+                ->order("newPosition DESC");
 
         return $this->paginator($select);
     }
