@@ -48,7 +48,7 @@
                     foreach ($this->feeddata as $data)
                     {
                         ?>
-                <tr>
+                <tr fdid="<?php echo $data->getId() ?>">
                             <td>
                                 <a href="<?php echo $data->getLink() ?>" target="_blank"><?php echo $data->getTitle() ?></a>
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
@@ -70,9 +70,30 @@
 
 <script>
 
-    $("#tab-sort-feed").rowSorter({
+    $("#reorder-feed-table").rowSorter({
         onDrop: function (tbody, row, index, oldIndex) {
-            alert((oldIndex + 1) + ". row moved to " + (index + 1));
+            //alert((oldIndex + 1) + ". row moved to " + (index + 1));
+            
+            var prevRow = tbody.getElementsByTagName("tr")[index - 1];
+            var nextRow = tbody.getElementsByTagName("tr")[index + 1];
+            
+            var betweenFromId = 0;
+            var betweenToId = 0;
+            var id = row.getAttribute("fdid");
+            
+            if(prevRow)
+            {
+               betweenFromId =  prevRow.getAttribute("fdid");
+            }
+            if(nextRow)
+            {
+               betweenToId =  nextRow.getAttribute("fdid");
+            }
+            
+            var fromdate = $('#fromdate').val();
+            
+            
+            javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/feeddataorder/id/' + id + '/betweenFromId/' + betweenFromId + '/betweenToId/' + betweenToId+"/fromdate/"+fromdate;
         }
     });
 
