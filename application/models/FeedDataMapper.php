@@ -181,10 +181,10 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         return $row->maxOrd;
     }
 
-    public function makeOrder($id, $oldIndex, $newIndex)
+    public function makeOrder($id, $betweenFromId, $betweenToId)
     {
         $dba = Zend_Db_Table_Abstract::getDefaultAdapter();
-        if ($oldIndex < $newIndex)
+        /*if ($oldIndex < $newIndex)
         {
             $qm = "UPDATE feedData set newPosition = ? where id = ?";
             $dba->query($qm, array($newIndex, $id));
@@ -205,7 +205,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
             $dba->query($q, array($newIndex, $oldIndex, $id, $maxInd));
 
             //die;
-        }
+        }*/
     }
 
 }

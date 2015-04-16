@@ -60,8 +60,25 @@
 
     $("#reorder-feed-table").rowSorter({
         onDrop: function (tbody, row, index, oldIndex) {
-            alert((oldIndex + 1) + ". row moved to " + (index + 1));
-            //javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/feeddataorder/id/' + row.getAttribute("fdid") + '/oldIndex/' + (oldIndex + 1) + '/newIndex/' + (index + 1);
+            //alert((oldIndex + 1) + ". row moved to " + (index + 1));
+            
+            var prevRow = tbody.getElementsByTagName("tr")[index - 1];
+            var nextRow = tbody.getElementsByTagName("tr")[index + 1];
+            
+            var betweenFromId = 0;
+            var betweenToId = 0;
+            var id = row.getAttribute("fdid");
+            
+            if(prevRow)
+            {
+               betweenFromId =  prevRow.getAttribute("fdid");
+            }
+            if(nextRow)
+            {
+               betweenFromId =  nextRow.getAttribute("fdid");
+            }
+            
+            javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/feeddataorder/id/' + id + '/betweenFromId/' + betweenFromId + '/betweenToId/' + betweenToId;
         }
     });
 

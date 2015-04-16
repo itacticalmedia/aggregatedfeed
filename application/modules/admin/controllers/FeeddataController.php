@@ -81,11 +81,11 @@ class Admin_FeeddataController extends Plugin_Inject
 
         $msg = array();
         $id = $request["id"];
-        $oldIndex = $request["oldIndex"];
-        $newIndex = $request["newIndex"];
+        $betweenFromId = $request["betweenFromId"];
+        $betweenToId = $request["betweenToId"];
        
         $m = new Application_Model_FeedDataMapper();
-        $m->makeOrder($id,$oldIndex, $newIndex);
+        $m->makeOrder($id,$betweenFromId, $betweenToId);
         $this->gotoPage('reorderfeed', 'feeddata');
     }
 
