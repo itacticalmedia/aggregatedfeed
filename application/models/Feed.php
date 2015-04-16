@@ -169,7 +169,8 @@ class Application_Model_Feed extends Application_Model_Base
 
         if (is_array($feed) && count($feed) > 0)
         {
-            $noOfFeed = count($feed);
+            $mp = new Application_Model_FeedDataMapper();            
+            $totalRecord = $mp->getMaxOrdered();
             
             foreach ($feed as $entry)
             {
@@ -180,7 +181,7 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setDescription($entry['description']);
                 $fdata->setLink($entry['link']);
                 $fdata->setData($entry['content']);               
-                $fdata->setNewPosition(0);
+                $fdata->setNewPosition($totalRecord++);
                 $fdata->setViewed(0);
                 
                 $dtModfied = $entry['dateModified'];                

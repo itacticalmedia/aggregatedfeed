@@ -174,7 +174,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $sel = $table->select()
                 ->from(
                 array($this->getTableName())
-                , 'MAX(IFNULL(newPosition,0)) maxOrd'
+                , 'IFNULL(MAX(IFNULL(newPosition,0)),0) maxOrd'
         );
 
         $row = $table->fetchRow($sel);
