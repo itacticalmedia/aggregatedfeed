@@ -70,7 +70,7 @@ class Admin_FeeddataController extends Plugin_Inject
             array("col" => "viewed", "value" => 1)
            
         );
-        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "asc"), $search, $fromdate, $todate);
+        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "desc"), $search, $fromdate, $todate);
 
         $this->view->fromdate = $fromdate;
         $this->view->todate = $todate;
@@ -103,10 +103,11 @@ class Admin_FeeddataController extends Plugin_Inject
         $id = $request["id"];
         $betweenFromId = $request["betweenFromId"];
         $betweenToId = $request["betweenToId"];
+        $fromdate = $request["fromdate"];
        
         $m = new Application_Model_FeedDataMapper();
         $m->makeOrder($id,$betweenFromId, $betweenToId);
-        $this->gotoPage('reorderfeed', 'feeddata');
+        $this->gotoPage('reorderfeed', 'feeddata',  $this->moduleName,array("fromdate"=>$fromdate));
     }
 
 }

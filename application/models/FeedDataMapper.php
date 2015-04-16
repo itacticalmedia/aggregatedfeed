@@ -185,31 +185,139 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         return $row->maxOrd;
     }
 
+    public function getMinOrdered()
+    {
+        $table = $this->getDbTable();
+        $sel = $table->select()
+            ->from(
+            array($this->getTableName())
+            , 'IFNULL(MIN(IFNULL(newPosition,0)),0) minOrd'
+        );
+
+        $row = $table->fetchRow($sel);
+        return $row->minOrd;
+    }
+
+    public function getNextOrdered($whichId)
+    {
+        $table = $this->getDbTable();
+        
+        $sel = $table->select()
+                ->from(
+                    array($this->getTableName())
+                    , 'newPosition'
+                )
+                ->where("id = ?", $whichId);
+        $row = $table->fetchRow($sel);    
+        $whichOrder = $row->newPosition;
+        
+        if($this->getMinOrdered() == $whichOrder)
+        {
+            return 0;
+        }
+        $sel = $table->select()
+                ->from(
+                    array($this->getTableName())
+                    , 'id'
+                )
+                ->where("newPosition > ?", $whichOrder)
+                ->order('newPosition DESC')->limit(0, 1);
+        $row = $table->fetchRow($sel);
+        if (!$row)
+        {
+            return 0;
+        }
+        return $row->id;
+    }
+
+    public function getPrevOrdered($whichId)
+    {
+        $table = $this->getDbTable();
+        
+        $sel = $table->select()
+                ->from(
+                    array($this->getTableName())
+                    , 'newPosition'
+                )
+                ->where("id = ?", $whichId);
+        $row = $table->fetchRow($sel);    
+        $whichOrder = $row->newPosition;
+        
+        if($this->getMaxOrdered() == $whichOrder)
+        {
+            return 0;
+        }
+        
+        $sel = $table->select()
+                ->from(
+                    array($this->getTableName())
+                    , 'id'
+                )
+                ->where("newPosition < ?", $whichOrder)
+                ->order('newPosition DESC')->limit(0, 1);
+        $row = $table->fetchRow($sel);
+        if (!$row)
+        {
+            return 0;
+        }
+        return $row->id;
+    }
+
     public function makeOrder($id, $betweenFromId, $betweenToId)
     {
+        Application_Model_Helpers_Common::debugprint("UP:: previd".$betweenFromId." nextid:".$betweenToId);
         $dba = Zend_Db_Table_Abstract::getDefaultAdapter();
-        /*if ($oldIndex < $newIndex)
+
+        if ($betweenToId == 0) //get next ordered if drop to last
         {
-            $qm = "UPDATE feedData set newPosition = ? where id = ?";
-            $dba->query($qm, array($newIndex, $id));
-
-            $q = "UPDATE feedData set newPosition = newPosition-1 where newPosition<=? and newPosition>=? and id!=? and newPosition>1";
-
-            $dba->query($q, array($newIndex, $oldIndex, $id));
+            $betweenToId = $this->getNextOrdered($betweenFromId);
         }
-        if ($oldIndex > $newIndex)
+        if ($betweenFromId == 0) //get next ordered if drop to last
         {
-            $maxInd = $this->getMaxOrdered();
+            $betweenFromId = $this->getPrevOrdered($betweenToId);
+        }
+        $prevOrder = 0;
+        $nextOrder = 0;
+        
+        $table = $this->getDbTable();
+        $sel = $table->select()
+            ->from(
+                array($this->getTableName())
+                , 'newPosition'
+            )
+            ->where("id  = ?", $betweenFromId);
+        $row = $table->fetchRow($sel);
+        if ($row)
+        {
+            $prevOrder = $row->newPosition;
+        }
+        
+        $sel = $table->select()
+            ->from(
+                array($this->getTableName())
+                , 'newPosition'
+            )
+            ->where("id  = ?", $betweenToId);
+        $row = $table->fetchRow($sel);
+        if ($row)
+        {
+            $nextOrder = $row->newPosition;
+        }
+        
+        Application_Model_Helpers_Common::debugprint("UP:: prev".$prevOrder." next:".$nextOrder);
+        
+        if($prevOrder == 0)
+        {
+            $prevOrder = ($nextOrder + 1);
+        }
+        $newOrder = ($prevOrder +$nextOrder)/2;
+        
+        $q = "UPDATE feedData set newPosition = ? where id=?";
 
-            $qm = "UPDATE feedData set newPosition = ? where id = ?";
-            $dba->query($qm, array($newIndex, $id));
-
-            $q = "UPDATE feedData set newPosition = newPosition+1 where newPosition>=? and newPosition<=? and id!=? and newPosition < ?";
-
-            $dba->query($q, array($newIndex, $oldIndex, $id, $maxInd));
-
-            //die;
-        }*/
+        Application_Model_Helpers_Common::debugprint("UP::".$q);
+        $dba->query($q, array($newOrder, $id));
+          
+       
     }
 
 }
