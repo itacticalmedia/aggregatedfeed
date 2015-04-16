@@ -109,11 +109,11 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
             if ($fromdate != "")
             {
-                $select->where("publishDate >=?", $fromdate);
+                $select->where("date(publishDate) >=?", $fromdate);
             }
             if ($todate != "")
             {
-                $select->where("publishDate <=?", $todate);
+                $select->where("date(publishDate) <=?", $todate);
             }
         }
      
