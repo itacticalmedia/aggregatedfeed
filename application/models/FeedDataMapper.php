@@ -2,55 +2,56 @@
 
 class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 {
+
     /**
      * Set table Name
      * @var string
      * 
      */
     protected $_name = 'feedData';
-    
-   /**
-    * 
-    * @param Application_Model_FeedData $feeddata
-    * @param type $by
-    * @return type
-    */
+
+    /**
+     *
+     * @param Application_Model_FeedData $feeddata
+     * @param type $by
+     * @return type
+     */
     public function save(Application_Model_FeedData $feeddata)
     {
-        
-        
+
+
         if (null === ($id = $feeddata->getId()))
         {
             $data = array(
-                'feedId' => $feeddata->getFeedId(),            
+                'feedId' => $feeddata->getFeedId(),
                 'title' => $feeddata->getTitle(),
                 'link' => $feeddata->getLink(),
                 'description' => $feeddata->getDescription(),
                 'data' => $feeddata->getData(),
-                'publishDate' => $feeddata->getPublishDate(),                
+                'publishDate' => $feeddata->getPublishDate(),
                 'newPosition' => $feeddata->getNewPosition(),
                 'viewed' => $feeddata->getViewed()
             );
-            
+
             unset($data['id']);
             return $this->getDbTable()->insert($data);
         }
         else
         {
-            
-            
-            $data = array(                       
-                'title' => $feeddata->getTitle(),               
+
+
+            $data = array(
+                'title' => $feeddata->getTitle(),
                 'description' => $feeddata->getDescription(),
                 'data' => $feeddata->getData(),
-                'publishDate' => $feeddata->getPublishDate()                
+                'publishDate' => $feeddata->getPublishDate()
             );
-            
+
             $this->getDbTable()->update($data, array('id = ?' => $id));
             return $id;
         }
     }
-    
+
     /**
      * 
      * @param Application_Model_FeedData $feeddata
@@ -61,9 +62,8 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $table = $this->getDbTable();
         $where = $table->getAdapter()->quoteInto('id = ?', $feeddata->getId());
         return $table->delete($where);
-
     }
-    
+
     /**
      * If exist return the ID else FALSE
      * @param Application_Model_FeedData $feeddata
@@ -71,16 +71,16 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
      */
     public function isExist(Application_Model_FeedData $feeddata)
     {
-       $table = $this->getDbTable();
+        $table = $this->getDbTable();
 
         $select = $table->select()
-            ->from(array($this->getTableName()), array("id"))
-            ->where("feedId = ?", $feeddata->getFeedId())
-            ->where("link = ?", $feeddata->getLink());
-                
+                ->from(array($this->getTableName()), array("id"))
+                ->where("feedId = ?", $feeddata->getFeedId())
+                ->where("link = ?", $feeddata->getLink());
+
         $row = $table->fetchRow($select);
-        
-        if($row)
+
+        if ($row)
         {
             return $row['id'];
         }
@@ -89,10 +89,8 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
             return FALSE;
         }
     }
-    
-   
 
-    public function loadAll($page = FALSE, $limit = Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, $orderBy = array(), $search = array())
+    public function loadAll($page = FALSE, $limit = Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, $orderBy = array(), $search = array(), $fromdate = "", $todate = "")
     {
         $select = $this->getDbTable()->select();
 
@@ -107,7 +105,18 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 }
                 $select->Where($searchAr['col'] . ' ' . $op . ' ', $searchAr['value']);
             }
+
+
+            if ($fromdate != "")
+            {
+                $select->where("publishDate >=?", $fromdate);
+            }
+            if ($todate != "")
+            {
+                $select->where("publishDate <=?", $todate);
+            }
         }
+     
         if (count($orderBy) > 0)
         {
             $select->order($orderBy['col'] . " " . $orderBy['type']);
@@ -116,39 +125,35 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $res = $this->paginator($select, $page, $limit);
         return $res;
     }
-    
 
     /**
      * 
      * @return Application_Model_FeedData[] | array | boolean
      */
     public function loadAllOrderByDate()
-    {       
+    {
         $db = $this->getDbTable()->getDefaultAdapter();
         $select = $db->select()
-            ->from(array("fd" => $this->getTableName()))
-            ->joinInner(array("f" => "feed"), "f.id = fd.`feedId`", array())   
-            ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
-            ->order("DATE(fd.`publishDate`) DESC, f.`feedPriority`");
-       
-       return $this->paginator($select, FALSE, 0, "DBSELECT");
-       
+                ->from(array("fd" => $this->getTableName()))
+                ->joinInner(array("f" => "feed"), "f.id = fd.`feedId`", array())
+                ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+                ->order("DATE(fd.`publishDate`) DESC, f.`feedPriority`");
+
+        return $this->paginator($select, FALSE, 0, "DBSELECT");
     }
-    
-    
+
     /**
      * 
      * @return Application_Model_FeedData[] | array | boolean
      */
     public function loadAllOrderByPosition()
-    { 
+    {
         $table = $this->getDbTable();
         $select = $table->select()
                 ->where("viewed = ?", Application_Model_FeedData::VIEWED)
-                ->order("newPosition");        
-       
-       return $this->paginator($select);
-       
+                ->order("newPosition");
+
+        return $this->paginator($select);
     }
 
     public function deleteByFeed(Application_Model_Feed $feed)
@@ -156,7 +161,6 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $table = $this->getDbTable();
         $where = $table->getAdapter()->quoteInto('feedId = ?', $feed->getId());
         return $table->delete($where);
-
     }
 
     public function refreshFeed()

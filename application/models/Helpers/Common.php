@@ -72,6 +72,10 @@ class Application_Model_Helpers_Common
     {
         return date("Y-m-d H:i:s");
     }
+    public static function currentDateMySql()
+    {
+        return date("Y-m-d");
+    }
 
     public static function validateDate($date, $format = 'Y-m-d H:i:s')
     {

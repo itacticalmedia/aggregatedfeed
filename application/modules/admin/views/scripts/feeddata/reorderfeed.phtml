@@ -1,3 +1,4 @@
+
 <style>
     table.sorting-table {cursor: move;}
     table tr.sorting-row td {background-color: #8b8;}
@@ -19,6 +20,17 @@
 </div><!-- / page title -->
 <div class="col-lg-12">
     <div class="table-responsive reorder-feed">
+        <form id="frm" name="frm" method="GET" >
+            <table>
+                <tr>
+                    <td>From Date:<input type="text" id="fromdate" name="fromdate" value="<?php echo $this->fromdate ?>" /></td>
+                    <td></td>
+                    <td>To Date:<input type="text" id="todate" name="todate" value="<?php echo $this->todate ?>" readonly="true" /></td>
+                    <td></td>
+                    <td><input type="submit" id="submit" value="Filter"  class="btn btn-lg btn-primary pull-right" /> </td>
+                </tr>
+            </table>
+        </form>
         <table class="table table-bordered table-striped" id="reorder-feed-table">
             <thead>
                 <tr>
@@ -40,12 +52,12 @@
                             <td>
                                 <a href="<?php echo $data->getLink() ?>" target="_blank"><?php echo $data->getTitle() ?></a>
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
-                                 
-                                    </td>
-                           
-                        </tr>
-                        <?php
-                    }
+
+                                            </td>
+
+                                        </tr>
+                                <?php
+                            }
                 }
                 ?>
 
@@ -64,4 +76,14 @@
         }
     });
 
+    var options = {
+        dateFormat: $('#fromdate').attr('dateFormat')?$('#fromdate').attr('dateFormat'):"yy-mm-dd",
+        changeMonth: true,
+        changeYear: true,
+        minDate: $('#fromdate').attr('minDate'),
+        maxDate: $('#fromdate').attr('maxDate')
+
+    };
+     $('#fromdate').datepicker( options);
+     $("#fromdate").datepicker( "option", "maxDate", $('#todate').val() );
 </script>
