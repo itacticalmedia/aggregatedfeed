@@ -27,8 +27,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 'link' => $feeddata->getLink(),
                 'description' => $feeddata->getDescription(),
                 'data' => $feeddata->getData(),
-                'publishDate' => $feeddata->getPublishDate(),
-                'originalPosition' => $feeddata->getOriginalPosition(),
+                'publishDate' => $feeddata->getPublishDate(),                
                 'newPosition' => $feeddata->getNewPosition(),
                 'viewed' => $feeddata->getViewed()
             );
@@ -118,6 +117,40 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         return $res;
     }
     
+
+    /**
+     * 
+     * @return Application_Model_FeedData[] | array | boolean
+     */
+    public function loadAllOrderByDate()
+    {       
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $db->select()
+            ->from(array("fd" => $this->getTableName()))
+            ->joinInner(array("f" => "feed"), "f.id = fd.`feedId`", array())   
+            ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+            ->order("DATE(fd.`publishDate`) DESC, f.`feedPriority`");
+       
+       return $this->paginator($select, FALSE, 0, "DBSELECT");
+       
+    }
+    
+    
+    /**
+     * 
+     * @return Application_Model_FeedData[] | array | boolean
+     */
+    public function loadAllOrderByPosition()
+    { 
+        $table = $this->getDbTable();
+        $select = $table->select()
+                ->where("viewed = ?", Application_Model_FeedData::VIEWED)
+                ->order("newPosition");        
+       
+       return $this->paginator($select);
+       
+    }
+
     public function deleteByFeed(Application_Model_Feed $feed)
     {
         $table = $this->getDbTable();

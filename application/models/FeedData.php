@@ -3,6 +3,9 @@
 class Application_Model_FeedData extends Application_Model_Base
 {
 
+    const VIEWED = 1;
+    const NOT_VIEWED = 0;
+    
     public function setId($a)
     {
         $this->_id = $a;

@@ -169,6 +169,8 @@ class Application_Model_Feed extends Application_Model_Base
 
         if (is_array($feed) && count($feed) > 0)
         {
+            $noOfFeed = count($feed);
+            
             foreach ($feed as $entry)
             {
                 $fdata = new Application_Model_FeedData();
@@ -177,8 +179,7 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setTitle($entry['title']);
                 $fdata->setDescription($entry['description']);
                 $fdata->setLink($entry['link']);
-                $fdata->setData($entry['content']);
-                $fdata->setOriginalPosition(0);
+                $fdata->setData($entry['content']);               
                 $fdata->setNewPosition(0);
                 $fdata->setViewed(0);
                 
