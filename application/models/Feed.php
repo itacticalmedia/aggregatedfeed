@@ -181,7 +181,7 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setDescription($entry['description']);
                 $fdata->setLink($entry['link']);
                 $fdata->setData($entry['content']);               
-                $fdata->setNewPosition($totalRecord++);
+                $fdata->setNewPosition(++$totalRecord);
                 $fdata->setViewed(0);
                 
                 $dtModfied = $entry['dateModified'];                
