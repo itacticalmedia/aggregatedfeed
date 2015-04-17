@@ -141,13 +141,13 @@ class Application_Model_Feed extends Application_Model_Base
             if ($this->getFeedUrl() != '')
             {
                 $feed = Zend_Feed_Reader::import($this->getFeedUrl());
-
+              
                 foreach ($feed as $entry)
                 {
                     $data[] = array(
                         'title' => $entry->getTitle(),
                         'description' => $entry->getDescription(),
-                        'dateModified' => $entry->getDateModified(),
+                        'dateModified' => $entry->getDateCreated(),
                         'authors' => $entry->getAuthors(),
                         'link' => $entry->getLink(),
                         'content' => $entry->getContent()

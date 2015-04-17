@@ -35,6 +35,7 @@ class CronjobController extends Plugin_Inject
                 try
                 {
                     $feedMaster->insertFeedData();
+                  #  echo "finished inserting::" . $feedMaster->getId() . "." . $feedMaster->getFeedUrl();
                 }
                 catch (Exception $ex)
                 {
