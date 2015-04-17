@@ -13,44 +13,43 @@ class IndexController extends Plugin_Inject
         
     }
 
-    public function showfeedbydateAction()
+   public function showfeedbydateAction()
     {
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
         $mp = new Application_Model_FeedDataMapper();
         $feeds = $mp->loadAllOrderByDate();
-
-        $feedData = array();
-        $feedData['title'] = 'Emmis Communications';
-        $feedData['description'] = 'great media. great people. great service.';
-        $feedData['link'] = 'http://www.emmis.com';
-        $feedData['charset'] = 'utf8';
+       
+        $feed = new Zend_Feed_Writer_Feed;
+        $feed->setTitle('Emmis Communications');
+        $feed->setDescription('great media. great people. great service.');
+        $feed->setLink('http://www.emmis.com');
 
 
         if ($feeds)
         {
-            foreach ($feeds as $feed)
+
+            foreach ($feeds as $fd)
             {
-                $feedData['entries'][] = array(
-                    'title' => $feed->getTitle(),
-                    'description' => ($feed->getDescription() != "") ? $feed->getDescription() : '',
-                    'link' => $feed->getLink(),
-                    'content' => $feed->getData(),
-                    'pubDate' => $feed->getPublishDate(),
-                    'category' => array(array('term' => $feed->_feedName))
-                );
+
+
+                $entry = $feed->createEntry();
+
+                $entry->setTitle($fd->getTitle());
+                $entry->setDescription(($fd->getDescription() != "") ? $fd->getDescription() : '');
+                $entry->setLink($fd->getLink());
+                $entry->setContent($fd->getData());
+                $entry->setDateCreated($fd->_ut);
+                $entry->addCategories(array(array('term' => $fd->_feedName)));
+                $feed->addEntry($entry);
             }
         }
 
 
-        // create our feed object and import the data
-        $feed = Zend_Feed::importArray($feedData, 'rss');
-
-        // set the Content Type of the document
         header('Content-type: text/xml');
-        // echo the contents of the RSS xml document
-        echo $feed->send();
+
+        echo $feed->export('rss');
     }
 
     public function showfeedbypositionAction()
