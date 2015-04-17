@@ -37,7 +37,7 @@ class IndexController extends Plugin_Inject
                 $entry = $feed->createEntry();
 
                 $entry->setTitle($fd->getTitle());
-                $entry->setDescription(($fd->getDescription() != "") ? $fd->getDescription() : '');
+                $entry->setDescription(($fd->getDescription() != "") ? $fd->getDescription() : ' ');
                 $entry->setLink($fd->getLink());
                 $entry->setContent($fd->getData());
                 $entry->setDateCreated($fd->_ut);
