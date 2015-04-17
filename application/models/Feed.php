@@ -166,7 +166,8 @@ class Application_Model_Feed extends Application_Model_Base
     public function insertFeedData()
     {
         $feed = $this->getFeed();
-
+        // reverting feed s that old feed get low order
+        $feed = array_reverse($feed);
         if (is_array($feed) && count($feed) > 0)
         {
             $mp = new Application_Model_FeedDataMapper();            

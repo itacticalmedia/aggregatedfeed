@@ -93,4 +93,24 @@ class IndexController extends Plugin_Inject
         
     }
 
+    public function testfeedAction()
+    {
+       /* $feed = Zend_Feed_Reader::import('http://www.power106.com/feeds/article/');
+          // print_r($feed);
+          foreach ($feed as $entry)
+          {
+          $data[] = array(
+          'title' => $entry->getTitle(),
+          'description' => $entry->getDescription(),
+          'dateModified' => $entry->getDateModified(),
+          'authors' => $entry->getAuthors(),
+          'link' => $entry->getLink(),
+          'content' => $entry->getContent()
+          );
+          }
+
+          print_r($data);
+          die; */
+    }
+
 }
