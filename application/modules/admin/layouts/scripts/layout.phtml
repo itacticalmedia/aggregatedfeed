@@ -40,6 +40,9 @@ echo $this->doctype();
     	    <a href="#" class="navbar-brand"><img src="<?php echo BASE_URL?>/images/emmis_logo_small.png" alt=""></a>
         </div>
     </div>
+            <div style="float: right">
+                        <a href="<?php echo $this->url(array('action' => 'logout', 'controller' => 'login')) ?>"><i class="fa fa-power-off"></i> LOG OUT</a>
+                    </div>
 </nav>
         <div id="page-wrapper">
              <?php echo $this->layout()->content ?>
