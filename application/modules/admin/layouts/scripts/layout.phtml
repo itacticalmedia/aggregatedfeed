@@ -31,20 +31,25 @@ echo $this->doctype();
 
         <div id="dialog-custom-confirm" title="" style="display: none;"></div>
         <?php
-        if ($user instanceof Application_Model_User && $user->getId() > 0)
+        if ($user instanceof Application_Model_User && $user->getId() > 0) //LOGGED IN
         {
-        ?>
-        <nav class="navbar navbar-default navbar-fixed-top">
-	<div class="container-full">
-	    <div class="navbar-header">
-    	    <a href="#" class="navbar-brand"><img src="<?php echo BASE_URL?>/images/emmis_logo_small.png" alt=""></a>
-        </div>
-    </div>
-</nav>
-        <div id="page-wrapper">
-             <?php echo $this->layout()->content ?>
-        </div>
-        <?php
+            ?>
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-full">
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand"><img src="<?php echo BASE_URL ?>/images/emmis_logo_small.png" alt=""></a>
+
+                    </div>
+                    <div style="float: right">
+                        <a href="<?php echo $this->url(array('action' => 'logout', 'controller' => 'login')) ?>"><i class="fa fa-power-off"></i> LOG OUT</a>
+                    </div>
+                </div>
+
+            </nav>
+            <div id="page-wrapper">
+                <?php echo $this->layout()->content ?>
+            </div>
+            <?php
         }
         else
         {
@@ -55,7 +60,7 @@ echo $this->doctype();
 
                     <div class="col-md-5 login-box">
                         <div class="logo">
-                            <img src="<?php echo BASE_URL?>/images/emmis_logo.png">
+                            <img src="<?php echo BASE_URL ?>/images/emmis_logo.png">
                                 <h2>Feed Aggregator Tool</h2>
                         </div>
                         <?php echo $this->layout()->content ?>
