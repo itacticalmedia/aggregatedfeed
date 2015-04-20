@@ -92,8 +92,45 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
     public function loadAll($page = FALSE, $limit = Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, $orderBy = array(), $search = array(), $fromdate = "", $todate = "")
     {
-        $select = $this->getDbTable()->select();
+        /*
+          $select = $this->getDbTable()->select();
 
+          if (count($search) > 0)
+          {
+          foreach ($search as $searchAr)
+          {
+          $op = ' = ?';
+          if (isset($searchAr['op']) && $searchAr['op'] != '')
+          {
+          $op = $searchAr['op'];
+          }
+          $select->Where($searchAr['col'] . ' ' . $op . ' ', $searchAr['value']);
+          }
+
+
+          if ($fromdate != "")
+          {
+          $select->where("date(publishDate) >=?", $fromdate);
+          }
+          if ($todate != "")
+          {
+          $select->where("date(publishDate) <=?", $todate);
+          }
+          }
+
+          if (count($orderBy) > 0)
+          {
+          $select->order($orderBy['col'] . " " . $orderBy['type']);
+          }
+
+         */
+
+
+
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("fd" => $this->getTableName()))
+                ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'));
         if (count($search) > 0)
         {
             foreach ($search as $searchAr)
@@ -116,13 +153,15 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 $select->where("date(publishDate) <=?", $todate);
             }
         }
-     
+
         if (count($orderBy) > 0)
         {
             $select->order($orderBy['col'] . " " . $orderBy['type']);
         }
+       
 
-        $res = $this->paginator($select, $page, $limit);
+
+        $res =  $this->paginator($select, FALSE, 0, "DBSELECT");
         return $res;
     }
 
@@ -134,12 +173,12 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     {
         $db = $this->getDbTable()->getDefaultAdapter();
         $select = $db->select()
-            ->from(array("fd" => $this->getTableName()))
-            ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array())   
-            ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
-            ->order(array("DATE(fd.publishDate) DESC", "f.feedPriority"));       
-       return $this->paginator($select, FALSE, 0, "DBSELECT");
+                ->from(array("fd" => $this->getTableName()), array("*", "UNIX_TIMESTAMP(publishDate) ut"))
+                ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'))
+                ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+                ->order(array("fd.publishDate DESC", "f.feedPriority"));
        
+        return $this->paginator($select, FALSE, 0, "DBSELECT");
     }
 
     /**
@@ -147,13 +186,15 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
      * @return Application_Model_FeedData[] | array | boolean
      */
     public function loadAllOrderByPosition()
-    {
-        $table = $this->getDbTable();
-        $select = $table->select()
-                ->where("viewed = ?", Application_Model_FeedData::VIEWED)
+    {       
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("fd" => $this->getTableName()), array("*", "UNIX_TIMESTAMP(publishDate) ut"))
+                ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'))
+                ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
                 ->order("newPosition DESC");
-
-        return $this->paginator($select);
+       
+        return $this->paginator($select, FALSE, 0, "DBSELECT");
     }
 
     public function deleteByFeed(Application_Model_Feed $feed)
@@ -189,9 +230,9 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     {
         $table = $this->getDbTable();
         $sel = $table->select()
-            ->from(
-            array($this->getTableName())
-            , 'IFNULL(MIN(IFNULL(newPosition,0)),0) minOrd'
+                ->from(
+                array($this->getTableName())
+                , 'IFNULL(MIN(IFNULL(newPosition,0)),0) minOrd'
         );
 
         $row = $table->fetchRow($sel);
@@ -201,27 +242,27 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     public function getNextOrdered($whichId)
     {
         $table = $this->getDbTable();
-        
+
         $sel = $table->select()
                 ->from(
-                    array($this->getTableName())
-                    , 'newPosition'
+                        array($this->getTableName())
+                        , 'newPosition'
                 )
                 ->where("id = ?", $whichId);
-        $row = $table->fetchRow($sel);    
+        $row = $table->fetchRow($sel);
         $whichOrder = $row->newPosition;
-        
-        if($this->getMinOrdered() == $whichOrder)
+
+        if ($this->getMinOrdered() == $whichOrder)
         {
             return 0;
         }
         $sel = $table->select()
-                ->from(
-                    array($this->getTableName())
-                    , 'id'
-                )
-                ->where("newPosition < ?", $whichOrder)
-                ->order('newPosition DESC')->limit(0, 1);
+                        ->from(
+                                array($this->getTableName())
+                                , 'id'
+                        )
+                        ->where("newPosition < ?", $whichOrder)
+                        ->order('newPosition DESC')->limit(0, 1);
         $row = $table->fetchRow($sel);
         if (!$row)
         {
@@ -233,28 +274,28 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
     public function getPrevOrdered($whichId)
     {
         $table = $this->getDbTable();
-        
+
         $sel = $table->select()
                 ->from(
-                    array($this->getTableName())
-                    , 'newPosition'
+                        array($this->getTableName())
+                        , 'newPosition'
                 )
                 ->where("id = ?", $whichId);
-        $row = $table->fetchRow($sel);    
+        $row = $table->fetchRow($sel);
         $whichOrder = $row->newPosition;
-        
-        if($this->getMaxOrdered() == $whichOrder)
+
+        if ($this->getMaxOrdered() == $whichOrder)
         {
             return 0;
         }
-        
+
         $sel = $table->select()
-                ->from(
-                    array($this->getTableName())
-                    , 'id'
-                )
-                ->where("newPosition > ?", $whichOrder)
-                ->order('newPosition DESC')->limit(0, 1);
+                        ->from(
+                                array($this->getTableName())
+                                , 'id'
+                        )
+                        ->where("newPosition > ?", $whichOrder)
+                        ->order('newPosition DESC')->limit(0, 1);
         $row = $table->fetchRow($sel);
         if (!$row)
         {
@@ -265,7 +306,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
     public function makeOrder($id, $betweenFromId, $betweenToId)
     {
-        Application_Model_Helpers_Common::debugprint("UP:: previd".$betweenFromId." nextid:".$betweenToId);
+        Application_Model_Helpers_Common::debugprint("UP:: previd" . $betweenFromId . " nextid:" . $betweenToId);
         $dba = Zend_Db_Table_Abstract::getDefaultAdapter();
 
         if ($betweenToId == 0) //get next ordered if drop to last
@@ -278,46 +319,44 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         }
         $prevOrder = 0;
         $nextOrder = 0;
-        
+
         $table = $this->getDbTable();
         $sel = $table->select()
-            ->from(
-                array($this->getTableName())
-                , 'newPosition'
-            )
-            ->where("id  = ?", $betweenFromId);
+                ->from(
+                        array($this->getTableName())
+                        , 'newPosition'
+                )
+                ->where("id  = ?", $betweenFromId);
         $row = $table->fetchRow($sel);
         if ($row)
         {
             $prevOrder = $row->newPosition;
         }
-        
+
         $sel = $table->select()
-            ->from(
-                array($this->getTableName())
-                , 'newPosition'
-            )
-            ->where("id  = ?", $betweenToId);
+                ->from(
+                        array($this->getTableName())
+                        , 'newPosition'
+                )
+                ->where("id  = ?", $betweenToId);
         $row = $table->fetchRow($sel);
         if ($row)
         {
             $nextOrder = $row->newPosition;
         }
-        
-        Application_Model_Helpers_Common::debugprint("UP:: prev".$prevOrder." next:".$nextOrder);
-        
-        if($prevOrder == 0)
+
+        Application_Model_Helpers_Common::debugprint("UP:: prev" . $prevOrder . " next:" . $nextOrder);
+
+        if ($prevOrder == 0)
         {
             $prevOrder = ($nextOrder + 1);
         }
-        $newOrder = ($prevOrder +$nextOrder)/2;
-        
+        $newOrder = ($prevOrder + $nextOrder) / 2;
+
         $q = "UPDATE feedData set newPosition = $newOrder where id=$id";
 
-        Application_Model_Helpers_Common::debugprint("UP::".$q);
+        Application_Model_Helpers_Common::debugprint("UP::" . $q);
         $dba->query($q);
-          
-       
     }
 
 }

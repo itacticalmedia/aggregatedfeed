@@ -44,10 +44,10 @@ class Admin_FeeddataController extends Plugin_Inject
         );
 
 
-        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "asc"), $search);
+        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "desc"), $search);
 
-       
-       
+
+
         $this->view->feeddata = $data;
     }
 

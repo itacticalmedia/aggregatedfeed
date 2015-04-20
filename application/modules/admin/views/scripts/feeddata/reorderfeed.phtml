@@ -35,6 +35,7 @@
             <thead>
                 <tr>
                     <th>Feed Data</th>
+                    <th>Feed Name</th>
 
 
                 </tr>
@@ -54,12 +55,14 @@
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
 
                                             </td>
-
-                                        </tr>
+                                    <td>
+                                        <?php echo $data->_feedName ?>
+                                    </td>
+                                </tr>
                                 <?php
                             }
-                }
-                ?>
+                        }
+                        ?>
 
 
 
@@ -73,38 +76,38 @@
     $("#reorder-feed-table").rowSorter({
         onDrop: function (tbody, row, index, oldIndex) {
             //alert((oldIndex + 1) + ". row moved to " + (index + 1));
-            
+
             var prevRow = tbody.getElementsByTagName("tr")[index - 1];
             var nextRow = tbody.getElementsByTagName("tr")[index + 1];
-            
+
             var betweenFromId = 0;
             var betweenToId = 0;
             var id = row.getAttribute("fdid");
-            
-            if(prevRow)
+
+            if (prevRow)
             {
-               betweenFromId =  prevRow.getAttribute("fdid");
+                betweenFromId = prevRow.getAttribute("fdid");
             }
-            if(nextRow)
+            if (nextRow)
             {
-               betweenToId =  nextRow.getAttribute("fdid");
+                betweenToId = nextRow.getAttribute("fdid");
             }
-            
+
             var fromdate = $('#fromdate').val();
-            
-            
-            javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/feeddataorder/id/' + id + '/betweenFromId/' + betweenFromId + '/betweenToId/' + betweenToId+"/fromdate/"+fromdate;
+
+
+            javascript:document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/feeddataorder/id/' + id + '/betweenFromId/' + betweenFromId + '/betweenToId/' + betweenToId + "/fromdate/" + fromdate;
         }
     });
 
     var options = {
-        dateFormat: $('#fromdate').attr('dateFormat')?$('#fromdate').attr('dateFormat'):"yy-mm-dd",
+        dateFormat: $('#fromdate').attr('dateFormat') ? $('#fromdate').attr('dateFormat') : "yy-mm-dd",
         changeMonth: true,
         changeYear: true,
         minDate: $('#fromdate').attr('minDate'),
         maxDate: $('#fromdate').attr('maxDate')
 
     };
-     $('#fromdate').datepicker( options);
-     $("#fromdate").datepicker( "option", "maxDate", $('#todate').val() );
+    $('#fromdate').datepicker(options);
+    $("#fromdate").datepicker("option", "maxDate", $('#todate').val());
 </script>
