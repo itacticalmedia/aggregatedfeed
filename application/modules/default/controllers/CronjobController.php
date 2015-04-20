@@ -34,13 +34,20 @@ class CronjobController extends Plugin_Inject
             {
                 try
                 {
+                    $feedId = $feedMaster->getId();
                     $feedMaster->insertFeedData();
-                  #  echo "finished inserting::" . $feedMaster->getId() . "." . $feedMaster->getFeedUrl();
+                  #  echo "finished inserting::" . $feedMaster->getId() . "." . $feedMaster->getFeedUrl();                    
                 }
                 catch (Exception $ex)
                 {
                     Application_Model_Helpers_Common::debugprint("Error when reading RSS from cron: " 
-                            . $ex->getMessage());                  
+                            . $ex->getMessage());        
+                    
+                    $body = "Error to get feed for master feed id = {$feedId} <br>";
+                    $body.="Error Message:". $ex->getMessage();
+                    
+                    
+                    Application_Model_Helpers_Mail::send(Application_Model_Helpers_Mail::getStoreFromMail(), Application_Model_Helpers_Mail::getStoreFromName(), "Error in get feed", $body, "omid@itacticalmedia.com");
                 }
             }
         }
