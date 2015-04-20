@@ -22,10 +22,10 @@ class IndexController extends Plugin_Inject
         $feeds = $mp->loadAllOrderByDate();
        
         $feed = new Zend_Feed_Writer_Feed;
-        $feed->setTitle('Emmis Communications');
-        $feed->setDescription('great media. great people. great service.');
-        $feed->setLink('http://www.emmis.com');
-
+        $feed->setTitle('Where Hip Hop Lives');
+        $feed->setDescription('Where Hip Hop Lives News');
+        $feed->setLink('http://www.wherehiphoplives.com');
+        $feed->setLanguage('en');        
 
         if ($feeds)
         {
@@ -61,10 +61,10 @@ class IndexController extends Plugin_Inject
         $feeds = $mp->loadAllOrderByPosition();
 
         $feed = new Zend_Feed_Writer_Feed;
-        $feed->setTitle('Emmis Communications');
-        $feed->setDescription('great media. great people. great service.');
-        $feed->setLink('http://www.emmis.com');
-
+        $feed->setTitle('Featured on Where Hip Hop Lives');
+        $feed->setDescription('Where Hip Hop Lives Featured News');
+        $feed->setLink('http://www.wherehiphoplives.com');
+        $feed->setLanguage('en');    
 
         if ($feeds)
         {
