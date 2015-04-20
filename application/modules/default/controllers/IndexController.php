@@ -23,7 +23,7 @@ class IndexController extends Plugin_Inject
         $feeds = $mp->loadAllOrderByDate();
         
         $feedData = array();        
-        $feedData['title'] = 'Emmis Communications';
+        $feedData['title'] = 'Emmis Communications test';
         $feedData['description'] = 'great media. great people. great service.';
         $feedData['link'] = 'http://www.emmis.com';
         $feedData['charset'] = 'utf8';
