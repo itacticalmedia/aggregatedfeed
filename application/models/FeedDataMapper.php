@@ -27,6 +27,9 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 'title' => $feeddata->getTitle(),
                 'link' => $feeddata->getLink(),
                 'description' => $feeddata->getDescription(),
+                'enclsr_url' => $feeddata->getEncloserUrl(),
+                'enclsr_length' => $feeddata->getEncloserLength(),
+                'enclsr_type' => $feeddata->getEncloserType(),
                 'data' => $feeddata->getData(),
                 'publishDate' => $feeddata->getPublishDate(),
                 'newPosition' => $feeddata->getNewPosition(),
@@ -43,6 +46,9 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
             $data = array(
                 'title' => $feeddata->getTitle(),
                 'description' => $feeddata->getDescription(),
+                'enclsr_url' => $feeddata->getEncloserUrl(),
+                'enclsr_length' => $feeddata->getEncloserLength(),
+                'enclsr_type' => $feeddata->getEncloserType(),
                 'data' => $feeddata->getData(),
                 'publishDate' => $feeddata->getPublishDate()
             );

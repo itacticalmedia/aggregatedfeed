@@ -89,6 +89,41 @@ class Application_Model_FeedData extends Application_Model_Base
         $this->_title = $a;
         return $this;
     }
+    
+    
+    public function setEncloserUrl($a)
+    {
+        $this->_enclsr_url = $a;
+        return $this;
+    }
+
+    public function getEncloserUrl()
+    {
+        return $this->_enclsr_url;
+    }
+    
+    
+    public function setEncloserLength($a)
+    {
+        $this->_enclsr_length = $a;
+        return $this;
+    }
+
+    public function getEncloserLength()
+    {
+        return $this->_enclsr_length;
+    }
+    
+    public function setEncloserType($a)
+    {
+        $this->_enclsr_type = $a;
+        return $this;
+    }
+
+    public function getEncloserType()
+    {
+        return $this->_enclsr_type;
+    }
 
    
     public function delete()

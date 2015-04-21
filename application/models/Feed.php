@@ -144,13 +144,21 @@ class Application_Model_Feed extends Application_Model_Base
               
                 foreach ($feed as $entry)
                 {
+                    $encloser = array('url'=>'', 'length'=>'', 'type'=>'');
+                    $enc = $entry->getEnclosure();
+                    if(isset($enc->url))
+                    {
+                        $encloser = array('url'=> $enc->url, 'length'=> $enc->length, 'type'=> $enc->type);
+                    }
+                   
                     $data[] = array(
                         'title' => $entry->getTitle(),
                         'description' => $entry->getDescription(),
                         'dateModified' => $entry->getDateCreated(),
                         'authors' => $entry->getAuthors(),
                         'link' => $entry->getLink(),
-                        'content' => $entry->getContent()
+                        'content' => $entry->getContent(),
+                        'encloser' => $encloser
                     );
                 }
             }
@@ -184,6 +192,10 @@ class Application_Model_Feed extends Application_Model_Base
                 $fdata->setData($entry['content']);               
                 $fdata->setNewPosition(++$totalRecord);
                 $fdata->setViewed(0);
+                $fdata->setEncloserUrl($entry['encloser']['url']);
+                $fdata->setEncloserLength($entry['encloser']['length']);
+                $fdata->setEncloserType($entry['encloser']['type']);
+                                
                 
                 $dtModfied = $entry['dateModified'];                
                 if ($dtModfied instanceof Zend_Date)

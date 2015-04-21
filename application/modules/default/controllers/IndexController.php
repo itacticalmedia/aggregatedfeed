@@ -42,6 +42,14 @@ class IndexController extends Plugin_Inject
                 $entry->setContent($fd->getData());
                 $entry->setDateCreated($fd->_ut);
                 $entry->addCategories(array(array('term' => $fd->_feedName)));
+                
+                if($fd->getEncloserUrl() != '' && $fd->getEncloserLength() != '' && $fd->getEncloserType() != '')
+                {
+                    $enclosure = array('uri' => $fd->getEncloserUrl(), 'length' => $fd->getEncloserLength(), 'type' => $fd->getEncloserType());
+                    $entry->setEnclosure($enclosure);
+                }               
+                
+                
                 $feed->addEntry($entry);
             }
         }
@@ -81,6 +89,13 @@ class IndexController extends Plugin_Inject
                 $entry->setContent($fd->getData());
                 $entry->setDateCreated($fd->_ut);
                 $entry->addCategories(array(array('term' => $fd->_feedName)));
+                
+                if($fd->getEncloserUrl() != '' && $fd->getEncloserLength() != '' && $fd->getEncloserType() != '')
+                {
+                    $enclosure = array('uri' => $fd->getEncloserUrl(), 'length' => $fd->getEncloserLength(), 'type' => $fd->getEncloserType());
+                    $entry->setEnclosure($enclosure);
+                }   
+                
                 $feed->addEntry($entry);
             }
         }

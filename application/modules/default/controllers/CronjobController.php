@@ -18,12 +18,16 @@ class CronjobController extends Plugin_Inject
 
     public function indexAction()
     {
+       $fd = new Application_Model_Feed(2);
+       echo '<pre>';
+       print_r($fd->getFeed());
+       die;
        
     }
 
     public function insfeedAction()
     {
-        //Application_Model_Helpers_Common::doDebug();
+        Application_Model_Helpers_Common::doDebug();
         
         $fdMp = new Application_Model_FeedMapper();
         $feedMasters = $fdMp->loadAll();
@@ -40,7 +44,7 @@ class CronjobController extends Plugin_Inject
                 }
                 catch (Exception $ex)
                 {
-                    Application_Model_Helpers_Common::debugprint("Error when reading RSS from cron: " 
+                    Application_Model_Helpers_Common::debugprint("Error when reading RSS from cron FeedID(".$feedId."): " 
                             . $ex->getMessage());        
                     
                     $body = "Error to get feed for master feed id = {$feedId} <br>";
