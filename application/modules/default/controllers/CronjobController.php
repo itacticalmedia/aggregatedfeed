@@ -18,11 +18,7 @@ class CronjobController extends Plugin_Inject
 
     public function indexAction()
     {
-       $fd = new Application_Model_Feed(2);
-       echo '<pre>';
-       print_r($fd->getFeed());
-       die;
-       
+             
     }
 
     public function insfeedAction()
