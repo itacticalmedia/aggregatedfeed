@@ -121,10 +121,10 @@ class Application_Model_Feed extends Application_Model_Base
         $md->deleteByFeed($this);
     }
     
-    public function saveFeedData(Application_Model_FeedData $feeddata)
+    public function saveFeedDataTemp(Application_Model_FeedDataTemp $feeddata)
     {
         $feeddata->setFeedId($this->getId());
-        $m = new Application_Model_FeedDataMapper();
+        $m = new Application_Model_FeedDataTempMapper();
         return $m->save($feeddata);
     }
     
@@ -171,27 +171,23 @@ class Application_Model_Feed extends Application_Model_Base
         return $data;
     }
 
-    public function insertFeedData()
+    public function insertFeedDataTemp()
     {
         $feed = $this->getFeed();
         // reverting feed s that old feed get low order
         $feed = array_reverse($feed);
         if (is_array($feed) && count($feed) > 0)
-        {
-            $mp = new Application_Model_FeedDataMapper();            
-            $totalRecord = $mp->getMaxOrdered();
+        {          
             
             foreach ($feed as $entry)
             {
-                $fdata = new Application_Model_FeedData();
+                $fdata = new Application_Model_FeedDataTemp();
                 
                 $fdata->setFeedId($this->getId());
                 $fdata->setTitle($entry['title']);
                 $fdata->setDescription($entry['description']);
                 $fdata->setLink($entry['link']);
-                $fdata->setData($entry['content']);               
-                $fdata->setNewPosition(++$totalRecord);
-                $fdata->setViewed(0);
+                $fdata->setData($entry['content']);  
                 $fdata->setEncloserUrl($entry['encloser']['url']);
                 $fdata->setEncloserLength($entry['encloser']['length']);
                 $fdata->setEncloserType($entry['encloser']['type']);
@@ -212,7 +208,7 @@ class Application_Model_Feed extends Application_Model_Base
                     $fdata->setId($feedDataId);
                 }
                 
-                $this->saveFeedData($fdata);
+                $this->saveFeedDataTemp($fdata);
                 unset($fdata);
             }
         }

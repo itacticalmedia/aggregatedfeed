@@ -196,5 +196,55 @@ class Application_Model_FeedData extends Application_Model_Base
     {
         return $this->_viewed;
     }
+    
+    public function saveFeedData(Application_Model_FeedData $feeddata)
+    {
+        $m = new Application_Model_FeedDataMapper();
+        return $m->save($feeddata);
+    }
+    
+    public function refreshFeed()
+    {
+        $tempmp = new Application_Model_FeedDataTempMapper();
+        $feeds = $tempmp->loadAllOrderByDate();
+                
+        if($feeds)
+        {
+            $mp1 = new Application_Model_FeedDataMapper();            
+            $totalRecord = $mp1->getMaxOrdered();
+            $totalRecord = ceil($totalRecord);
+            
+            foreach ($feeds as $feed)
+            {
+                $fdata = new Application_Model_FeedData();                
+                
+                $fdata->setFeedId($feed->getFeedId());
+                $fdata->setTitle($feed->getTitle());
+                $fdata->setDescription($feed->getDescription());
+                $fdata->setLink($feed->getLink());
+                $fdata->setData($feed->getData());  
+                $fdata->setNewPosition(++$totalRecord);
+                $fdata->setViewed(1);
+                $fdata->setEncloserUrl($feed->getEncloserUrl());
+                $fdata->setEncloserLength($feed->getEncloserLength());
+                $fdata->setEncloserType($feed->getEncloserType());                                              
+                $fdata->setPublishDate($feed->getPublishDate());                
+                    
+                if (FALSE ===($feedDataId = $fdata->isExist()) )
+                {   
+                    $fdata->setId(NULL);
+                }
+                else
+                {
+                    $fdata->setId($feedDataId);
+                }
+                
+                $this->saveFeedData($fdata);
+                unset($fdata);
+            }            
+            
+            $tempmp->deleteAll();
+        }
+    }
 
 }
