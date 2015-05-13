@@ -4,7 +4,9 @@ class Application_Model_FeedData extends Application_Model_Base
 {
 
     const VIEWED = 1;
-    const NOT_VIEWED = 0;
+    const NOT_VIEWED = 0;    
+    const HIDE = 1;
+    const NOT_HIDE = 0;
     
     public function setId($a)
     {
@@ -195,6 +197,24 @@ class Application_Model_FeedData extends Application_Model_Base
     public function getViewed()
     {
         return $this->_viewed;
+    }   
+        
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setHide($v)
+    {
+        $this->_hide = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getHide()
+    {
+        return $this->_hide;
     }
     
     public function saveFeedData(Application_Model_FeedData $feeddata)
@@ -245,6 +265,16 @@ class Application_Model_FeedData extends Application_Model_Base
             
             $tempmp->deleteAll();
         }
+    }
+    
+    /**
+     * This function hide feed data if already hide then unhide     
+     * @return int
+     */
+    public function toggleHide()
+    {
+        $mp = new Application_Model_FeedDataMapper();
+        return $mp->toggleHide($this);
     }
 
 }

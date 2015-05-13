@@ -24,3 +24,7 @@ CREATE TABLE `feedDataTemp` (
   KEY `indx_feedid` (`feedId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=591 DEFAULT CHARSET=utf8;
  
+/**
+    changed on May 14 2015
+*/
+ALTER TABLE `feedData` ADD COLUMN `hide` TINYINT DEFAULT 0 NULL AFTER `viewed`; 

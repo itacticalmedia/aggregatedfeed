@@ -49,14 +49,17 @@
                     foreach ($this->feeddata as $data)
                     {
                         ?>
-                <tr fdid="<?php echo $data->getId() ?>">
-                            <td>
+                            <tr fdid="<?php echo $data->getId() ?>" <?php echo ($data->getHide() == 1)?'style="background-color: pink"':'' ?>>
+                                <td>
                                 <a href="<?php echo $data->getLink() ?>" target="_blank"><?php echo $data->getTitle() ?></a>
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
 
                                             </td>
-                                    <td>
-                                        <?php echo $data->_feedName ?>
+                                            <td>
+                                        <?php echo $data->_feedName ?> <a href="#" style="float:right" class="link-hide" feedId="<?php 
+                                        echo $data->getId() ?>"><?php 
+                                            echo ($data->getHide() == 0)?'<i class="fa fa-eye" style="font-size: x-large" title="Hide"></i >':'<i class="fa fa-eye-slash" style="font-size: x-large" title="Show"></i >';
+                                        ?></a>
                                     </td>
                                 </tr>
                                 <?php
@@ -110,4 +113,11 @@
     };
     $('#fromdate').datepicker(options);
     $("#fromdate").datepicker("option", "maxDate", $('#todate').val());
+    
+    $(".link-hide").click(function(){    
+            var id = $(this).attr('feedId');
+            var fromdate = $('#fromdate').val();
+            document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/togglehide/id/'+id+'/fromdate/'+fromdate
+    });
+    
 </script>

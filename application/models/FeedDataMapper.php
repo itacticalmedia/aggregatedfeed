@@ -182,6 +182,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 ->from(array("fd" => $this->getTableName()), array("*", "UNIX_TIMESTAMP(publishDate) ut"))
                 ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'))
                 ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+                ->where("fd.hide = ?", Application_Model_FeedData::NOT_HIDE)
                 ->order(array("fd.publishDate DESC", "f.feedPriority"));
        
         return $this->paginator($select, FALSE, 0, "DBSELECT");
@@ -198,6 +199,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 ->from(array("fd" => $this->getTableName()), array("*", "UNIX_TIMESTAMP(publishDate) ut"))
                 ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'))
                 ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+                ->where("fd.hide = ?", Application_Model_FeedData::NOT_HIDE)
                 ->order("newPosition DESC");
        
         return $this->paginator($select, FALSE, 0, "DBSELECT");
@@ -363,6 +365,20 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
 
         Application_Model_Helpers_Common::debugprint("UP::" . $q);
         $dba->query($q);
+    }
+    
+    /**
+     * This functio hide feed data if already hide then unhide
+     * @param Application_Model_FeedData $fd
+     * @return int
+     */
+    public function toggleHide(Application_Model_FeedData $fd)
+    {
+        $data = array(
+            'hide' => ($fd->getHide() == 1)?0:1
+        );
+
+        return $this->getDbTable()->update($data, array('id = ?' => $fd->getId()));
     }
 
 }

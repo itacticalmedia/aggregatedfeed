@@ -36,13 +36,17 @@
                     foreach ($this->feeddata as $data)
                     {
                         ?>
-                <tr>
-                            <td>
+                        <tr>
+                            <td <?php echo ($data->getHide() == 1)?'style="background-color: pink"':'' ?> >
+                               <a href="#" style="float:right" class="link-hide" feedId="<?php 
+                                        echo $data->getId() ?>"><?php 
+                                            echo ($data->getHide() == 0)?'<i class="fa fa-eye" style="font-size: xx-large" title="Hide"></i>':'<i class="fa fa-eye-slash" style="font-size: xx-large" title="Show"></i >';
+                                        ?></a>                                
                                 <a href="<?php echo $data->getLink() ?>" target="_blank"><?php echo $data->getTitle() ?></a>
                                 <p class="date"><?php echo Application_Model_Helpers_Common::mysqlDateToLocal($data->getPublishDate(), 1) ?></p>
                                   <p><?php echo  $data->getDescription()  ?> </p>
-                                    </td>
-                            <!--<td class="action"><a href="#"><i class="fa fa-arrow-down"></i ><i class="fa fa-arrow-up"></i ></a></td>-->
+                            </td>
+                            <!--<td class="action"><a href="#"><i class="fa fa-eye"></i ><i class="fa fa-arrow-up"></i ></a></td>-->
                         </tr>
                         <?php
                     }
@@ -62,6 +66,12 @@
         onDrop: function (tbody, row, index, oldIndex) {
             alert((oldIndex + 1) + ". row moved to " + (index + 1));
         }
+    });
+    
+     $(".link-hide").click(function(){    
+            var id = $(this).attr('feedId');
+            var fromdate = $('#fromdate').val();
+            document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/togglehide/id/'+id+'/feedid/'+<?php echo $this->feedid ?>
     });
 
 </script>

@@ -111,4 +111,33 @@ class Admin_FeeddataController extends Plugin_Inject
         $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate);
     }
 
+    
+    public function togglehideAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $request = $this->request->getParams();
+        $id = $request["id"];
+        $fromdate = $request["fromdate"];
+        
+        if($id <= 0)
+        {
+            throw new Exception("Id not found");            
+        }
+        
+        $fd = new Application_Model_FeedData($id);
+        $fd->toggleHide(); 
+        
+        if(isset($request["feedid"]))
+        {
+            $this->_redirect(BASE_URL_ADMIN . '/feeddata/index/feedid/'.$request["feedid"]);            
+        }
+        else
+        {
+            $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate);
+        }
+        
+        die;
+    }
 }
