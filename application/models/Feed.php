@@ -120,14 +120,7 @@ class Application_Model_Feed extends Application_Model_Base
         $md  = new Application_Model_FeedDataMapper();
         $md->deleteByFeed($this);
     }
-    
-    public function saveFeedDataTemp(Application_Model_FeedDataTemp $feeddata)
-    {
-        $feeddata->setFeedId($this->getId());
-        $m = new Application_Model_FeedDataTempMapper();
-        return $m->save($feeddata);
-    }
-    
+  
     /**
      * Return array of feeds
      * @return array
@@ -150,11 +143,12 @@ class Application_Model_Feed extends Application_Model_Base
                     {
                         $encloser = array('url'=> $enc->url, 'length'=> $enc->length, 'type'=> $enc->type);
                     }
-                   
+                    
                     $data[] = array(
                         'title' => $entry->getTitle(),
-                        'description' => $entry->getDescription(),
-                        'dateModified' => $entry->getDateCreated(),
+                        'feedId' => $this->getId(),                                               
+                        'description' => $entry->getDescription(),  
+                        'dateModified' => $entry->getDateCreated(), 
                         'authors' => $entry->getAuthors(),
                         'link' => $entry->getLink(),
                         'content' => $entry->getContent(),
@@ -169,49 +163,6 @@ class Application_Model_Feed extends Application_Model_Base
         }
 
         return $data;
-    }
-
-    public function insertFeedDataTemp()
-    {
-        $feed = $this->getFeed();
-        // reverting feed s that old feed get low order
-        $feed = array_reverse($feed);
-        if (is_array($feed) && count($feed) > 0)
-        {          
-            
-            foreach ($feed as $entry)
-            {
-                $fdata = new Application_Model_FeedDataTemp();
-                
-                $fdata->setFeedId($this->getId());
-                $fdata->setTitle($entry['title']);
-                $fdata->setDescription($entry['description']);
-                $fdata->setLink($entry['link']);
-                $fdata->setData($entry['content']);  
-                $fdata->setEncloserUrl($entry['encloser']['url']);
-                $fdata->setEncloserLength($entry['encloser']['length']);
-                $fdata->setEncloserType($entry['encloser']['type']);
-                                
-                
-                $dtModfied = $entry['dateModified'];                
-                if ($dtModfied instanceof Zend_Date)
-                {
-                    $fdata->setPublishDate($dtModfied->getIso());
-                }
-                    
-                if (FALSE ===($feedDataId = $fdata->isExist()) )
-                {   
-                    $fdata->setId(NULL);
-                }
-                else
-                {
-                    $fdata->setId($feedDataId);
-                }
-                
-                $this->saveFeedDataTemp($fdata);
-                unset($fdata);
-            }
-        }
     }
 
 }

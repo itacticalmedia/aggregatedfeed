@@ -30,13 +30,21 @@ class CronjobController extends Plugin_Inject
 
         if ($feedMasters)
         {
+            $allFeedsArray = array();
+            
             foreach ($feedMasters as $feedMaster)
             {
                 try
                 {
                     $feedId = $feedMaster->getId();
-                    $feedMaster->insertFeedDataTemp();
-                    #  echo "finished inserting::" . $feedMaster->getId() . "." . $feedMaster->getFeedUrl();                    
+                    $feeds = $feedMaster->getFeed();
+                    
+                    if (is_array($feeds) && count($feeds) > 0)
+                    {
+                        $allFeedsArray = array_merge($allFeedsArray, $feeds);     
+                    }
+                    
+                    unset($feeds);
                 }
                 catch (Exception $ex)
                 {
@@ -49,7 +57,11 @@ class CronjobController extends Plugin_Inject
                     
                     Application_Model_Helpers_Mail::send(Application_Model_Helpers_Mail::getStoreFromMail(), Application_Model_Helpers_Mail::getStoreFromName(), "Error in get feed", $body, "omid@itacticalmedia.com");
                 }
-            }
+            }            
+            
+            usort($allFeedsArray, "Application_Model_FeedData::sortFeedData"); 
+            Application_Model_FeedData::insertFeedData($allFeedsArray);            
+            unset($allFeedsArray);            
         }
     }
 

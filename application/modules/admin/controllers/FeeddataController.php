@@ -83,7 +83,7 @@ class Admin_FeeddataController extends Plugin_Inject
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
 
-        $map = new Application_Model_FeedData();
+        $map = new Application_Model_FeedDataMapper();
         $map->refreshFeed();
 
         $Succmsg[] = "Feed has been refreshed successfully.";

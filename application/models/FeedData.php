@@ -222,51 +222,7 @@ class Application_Model_FeedData extends Application_Model_Base
         $m = new Application_Model_FeedDataMapper();
         return $m->save($feeddata);
     }
-    
-    public function refreshFeed()
-    {
-        $tempmp = new Application_Model_FeedDataTempMapper();
-        $feeds = $tempmp->loadAllOrderByDate();
-                
-        if($feeds)
-        {
-            $mp1 = new Application_Model_FeedDataMapper();            
-            $totalRecord = $mp1->getMaxOrdered();
-            $totalRecord = ceil($totalRecord);
-            
-            foreach ($feeds as $feed)
-            {
-                $fdata = new Application_Model_FeedData();                
-                
-                $fdata->setFeedId($feed->getFeedId());
-                $fdata->setTitle($feed->getTitle());
-                $fdata->setDescription($feed->getDescription());
-                $fdata->setLink($feed->getLink());
-                $fdata->setData($feed->getData());  
-                $fdata->setNewPosition(++$totalRecord);
-                $fdata->setViewed(1);
-                $fdata->setEncloserUrl($feed->getEncloserUrl());
-                $fdata->setEncloserLength($feed->getEncloserLength());
-                $fdata->setEncloserType($feed->getEncloserType());                                              
-                $fdata->setPublishDate($feed->getPublishDate());                
-                    
-                if (FALSE ===($feedDataId = $fdata->isExist()) )
-                {   
-                    $fdata->setId(NULL);
-                }
-                else
-                {
-                    $fdata->setId($feedDataId);
-                }
-                
-                $this->saveFeedData($fdata);
-                unset($fdata);
-            }            
-            
-            $tempmp->deleteAll();
-        }
-    }
-    
+   
     /**
      * This function hide feed data if already hide then unhide     
      * @return int
@@ -275,6 +231,61 @@ class Application_Model_FeedData extends Application_Model_Base
     {
         $mp = new Application_Model_FeedDataMapper();
         return $mp->toggleHide($this);
+    }
+    
+    /**
+     * Insert the feeds
+     * @param array $feed
+     */
+    public static function insertFeedData($feed)
+    {
+        if (is_array($feed) && count($feed) > 0)
+        {
+            $mp = new Application_Model_FeedDataMapper();            
+            $totalRecord = ceil($mp->getMaxOrdered());
+            
+            foreach ($feed as $entry)
+            {
+                $fdata = new Application_Model_FeedData();                
+                $fdata->setFeedId($entry['feedId']);
+                $fdata->setTitle($entry['title']);
+                $fdata->setDescription($entry['description']);
+                $fdata->setLink($entry['link']);
+                $fdata->setData($entry['content']);  
+                $fdata->setEncloserUrl($entry['encloser']['url']);
+                $fdata->setEncloserLength($entry['encloser']['length']);
+                $fdata->setEncloserType($entry['encloser']['type']);
+                $fdata->setNewPosition(++$totalRecord);
+                $fdata->setViewed(0);                
+                
+                $dtModfied = $entry['dateModified'];                
+                if ($dtModfied instanceof Zend_Date)
+                {
+                    $fdata->setPublishDate($dtModfied->getIso());
+                }
+                    
+                if (FALSE === ($feedDataId = $fdata->isExist()))
+                {   
+                    $fdata->setId(NULL);
+                }
+                else
+                {
+                    $fdata->setId($feedDataId);
+                }
+               
+                $mp->save($fdata);
+                unset($fdata);
+            }
+        }
+    }
+    
+    
+    public static function sortFeedData($v1, $v2)
+    { 
+       $dt1 = $v1['dateModified'];
+       $dt2 = $v2['dateModified'];       
+       $r =  $dt1->compare($dt2);  
+       return $r;
     }
 
 }

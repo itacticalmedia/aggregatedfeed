@@ -181,7 +181,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $select = $db->select()
                 ->from(array("fd" => $this->getTableName()), array("*", "UNIX_TIMESTAMP(publishDate) ut"))
                 ->joinInner(array("f" => "feed"), "f.id = fd.feedId", array('f.feedName'))
-                ->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
+                //->where("fd.viewed = ?", Application_Model_FeedData::VIEWED)
                 ->where("fd.hide = ?", Application_Model_FeedData::NOT_HIDE)
                 ->order(array("fd.publishDate DESC", "f.feedPriority"));
        
