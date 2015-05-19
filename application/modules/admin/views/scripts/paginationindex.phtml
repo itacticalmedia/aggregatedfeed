@@ -8,21 +8,21 @@
     <ul class="pagination">
         <!-- Previous page link -->
         <?php if (isset($this->previous)): ?>
-            <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate.'&page='.$this->previous ?>">«</a></li>            
+            <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/index/feedid/'.$this->feedid.'/?page='.$this->previous ?>">«</a></li>            
         <?php else: ?>
             <li><a href="#">«</a></li>
         <?php endif; ?>
         <!-- Numbered page links -->
         <?php foreach ($this->pagesInRange as $page): ?>
             <?php if ($page != $this->current): ?>           
-                <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate.'&page='.$page ?>"><?php echo $page; ?></a></li>                
+                <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/index/feedid/'.$this->feedid.'/?page='.$page ?>"><?php echo $page; ?></a></li>                
             <?php else: ?>                
                 <li><a href="#" style="background-color:#D1F2F9"><?php echo $page; ?></a></li>
             <?php endif; ?>
         <?php endforeach; ?>
         <!-- Next page link -->
         <?php if (isset($this->next)): ?>            
-            <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate.'&page='.$this->next ?>">»</a></li>
+            <li><a href="<?php echo BASE_URL_ADMIN . '/feeddata/index/feedid/'.$this->feedid.'/?page='.$this->next ?>">»</a></li>
         <?php else: ?>
             <li><a href="#">»</a></li>
         <?php endif; ?>

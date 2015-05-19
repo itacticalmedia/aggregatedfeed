@@ -167,7 +167,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
        
 
 
-        $res =  $this->paginator($select, FALSE, 0, "DBSELECT");
+        $res =  $this->paginator($select, $page, $limit, "DBSELECT");
         return $res;
     }
 

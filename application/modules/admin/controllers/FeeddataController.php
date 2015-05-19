@@ -17,6 +17,7 @@ class Admin_FeeddataController extends Plugin_Inject
 
     public function indexAction()
     {
+        $page = $this->request->getParam("page", 1);
         $id = $this->request->getParam('feedid');
 
 
@@ -44,15 +45,19 @@ class Admin_FeeddataController extends Plugin_Inject
         );
 
 
-        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "desc"), $search);
+        $res = $map->loadAll($page, Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE, 
+                array("col" => "newPosition", "type" => "desc"), $search);
 
 
 
-        $this->view->feeddata = $data;
+        $this->view->feeddata = $res['data'];
+        $this->view->paginator = $res['paginator'];
+        $this->view->page = $page;
     }
 
     public function reorderfeedAction()
     {
+        $page = $this->request->getParam("page", 1);
         $fromdate = $this->request->getParam('fromdate');
         $todate = $this->request->getParam('todate');
 
@@ -70,11 +75,14 @@ class Admin_FeeddataController extends Plugin_Inject
             array("col" => "viewed", "value" => 1)
            
         );
-        $data = $map->loadAll(FALSE, 0, array("col" => "newPosition", "type" => "desc"), $search, $fromdate, $todate);
+        $res = $map->loadAll($page, Application_Model_Helpers_Common::MAX_RECORDS_PER_PAGE,
+                array("col" => "newPosition", "type" => "desc"), $search, $fromdate, $todate);
 
         $this->view->fromdate = $fromdate;
         $this->view->todate = $todate;
-        $this->view->feeddata = $data;
+        $this->view->feeddata = $res['data'];
+        $this->view->paginator = $res['paginator'];
+        $this->view->page = $page;
     }
 
     public function refreshfeedAction()
@@ -104,11 +112,12 @@ class Admin_FeeddataController extends Plugin_Inject
         $betweenFromId = $request["betweenFromId"];
         $betweenToId = $request["betweenToId"];
         $fromdate = $request["fromdate"];
+        $page = $request["page"];
        
         $m = new Application_Model_FeedDataMapper();
         $m->makeOrder($id,$betweenFromId, $betweenToId);
         //$this->gotoPage('reorderfeed', 'feeddata',  $this->moduleName,array("?fromdate"=>$fromdate));
-        $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate);
+        $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate.'&page='.$page);
     }
 
     
@@ -120,6 +129,7 @@ class Admin_FeeddataController extends Plugin_Inject
         $request = $this->request->getParams();
         $id = $request["id"];
         $fromdate = $request["fromdate"];
+        $page = $request["page"];
         
         if($id <= 0)
         {
@@ -131,11 +141,11 @@ class Admin_FeeddataController extends Plugin_Inject
         
         if(isset($request["feedid"]))
         {
-            $this->_redirect(BASE_URL_ADMIN . '/feeddata/index/feedid/'.$request["feedid"]);            
+            $this->_redirect(BASE_URL_ADMIN . '/feeddata/index/feedid/'.$request["feedid"]."/?page=".$page);            
         }
         else
         {
-            $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate);
+            $this->_redirect(BASE_URL_ADMIN . '/feeddata/reorderfeed/?fromdate='.$fromdate."&page=".$page);
         }
         
         die;

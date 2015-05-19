@@ -52,10 +52,20 @@
                     }
                 }
                 ?>
-
-
-
             </tbody>
+        </table>
+        <br>
+        <table width="100%">
+             <tr>
+                    <td colspan="10" style="text-align: center">
+                        <?php
+                            if ($this->feeddata)
+                            {
+                                echo $this->paginationControl($this->paginator, 'Sliding', 'paginationindex.phtml', $this->request->getParams());
+                            }
+                        ?>  
+                    </td>
+                </tr>
         </table>
     </div><!-- / responsive table  -->
 </div>
@@ -71,7 +81,8 @@
      $(".link-hide").click(function(){    
             var id = $(this).attr('feedId');
             var fromdate = $('#fromdate').val();
-            document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/togglehide/id/'+id+'/feedid/'+<?php echo $this->feedid ?>
+            document.location.href = '<?php echo BASE_URL_ADMIN ?>/feeddata/togglehide/id/'+id+'/feedid/'+<?php echo $this->feedid ?> + "<?php 
+            echo '/page/'.$this->page ?>"
     });
 
 </script>
