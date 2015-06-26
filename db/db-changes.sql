@@ -28,3 +28,8 @@ CREATE TABLE `feedDataTemp` (
     changed on May 14 2015
 */
 ALTER TABLE `feedData` ADD COLUMN `hide` TINYINT DEFAULT 0 NULL AFTER `viewed`; 
+
+/**
+    Changed on Jun 27 2015
+*/
+ALTER TABLE `aggregatedfeed`.`feedData` ADD COLUMN `guidHash` VARCHAR(255) NULL AFTER `publishDate`; 

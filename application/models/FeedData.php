@@ -217,6 +217,25 @@ class Application_Model_FeedData extends Application_Model_Base
         return $this->_hide;
     }
     
+    /**
+     * @param type $v
+     * @return type
+     */
+    public function setGuidHash($v)
+    {
+        $this->_guidHash = $v;
+        return $this;
+    }
+
+    /**
+     * @return type
+     */
+    public function getGuidHash()
+    {
+        return $this->_guidHash;
+    }
+    
+    
     public function saveFeedData(Application_Model_FeedData $feeddata)
     {
         $m = new Application_Model_FeedDataMapper();
@@ -248,6 +267,7 @@ class Application_Model_FeedData extends Application_Model_Base
             {
                 $fdata = new Application_Model_FeedData();                
                 $fdata->setFeedId($entry['feedId']);
+                $fdata->setGuidHash($entry['guid']);
                 $fdata->setTitle($entry['title']);
                 $fdata->setDescription($entry['description']);
                 $fdata->setLink($entry['link']);

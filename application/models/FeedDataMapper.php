@@ -33,6 +33,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
                 'data' => $feeddata->getData(),
                 'publishDate' => $feeddata->getPublishDate(),
                 'newPosition' => $feeddata->getNewPosition(),
+                'guidHash' => $feeddata->getGuidHash(),
                 'viewed' => $feeddata->getViewed()
             );
 
@@ -46,6 +47,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
             $data = array(
                 'title' => $feeddata->getTitle(),
                 'description' => $feeddata->getDescription(),
+                'link' => $feeddata->getLink(),
                 'enclsr_url' => $feeddata->getEncloserUrl(),
                 'enclsr_length' => $feeddata->getEncloserLength(),
                 'enclsr_type' => $feeddata->getEncloserType(),
@@ -82,7 +84,7 @@ class Application_Model_FeedDataMapper extends Application_Model_MapperBase
         $select = $table->select()
                 ->from(array($this->getTableName()), array("id"))
                 ->where("feedId = ?", $feeddata->getFeedId())
-                ->where("link = ?", $feeddata->getLink());
+                ->where("guidHash = ?", $feeddata->getGuidHash());
 
         $row = $table->fetchRow($select);
 

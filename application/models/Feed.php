@@ -134,7 +134,7 @@ class Application_Model_Feed extends Application_Model_Base
             if ($this->getFeedUrl() != '')
             {
                 $feed = Zend_Feed_Reader::import($this->getFeedUrl());
-              
+                
                 foreach ($feed as $entry)
                 {
                     $encloser = array('url'=>'', 'length'=>'', 'type'=>'');
@@ -145,6 +145,7 @@ class Application_Model_Feed extends Application_Model_Base
                     }
                     
                     $data[] = array(
+                        'guid' => sha1( $entry->getId()),
                         'title' => $entry->getTitle(),
                         'feedId' => $this->getId(),                                               
                         'description' => $entry->getDescription(),  
